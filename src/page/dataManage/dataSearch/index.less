@@ -1,0 +1,321 @@
+.wrap{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  .left{
+    position:relative;
+//  height:100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex:1;
+    .chartModel{
+      height: 40px;
+      position: relative;
+      border: 1px solid gray;
+      background: rgba(63,71,94);
+      width: 100%;
+      z-index: 1000;
+      ul.chartItemRow{
+        display:flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        li{
+          width: 40px;
+          height: 40px;
+          line-height: 40px;
+          list-style: none;
+          cursor:pointer;
+          text-align:center;
+          span,img{
+            height: 30px;
+            width: 30px;
+          }
+          span.imgRow{
+            margin-top: 4px;
+            display: inline-block;
+          }
+          ul.chartItemColum{
+            border: 1px solid gray;
+            display:flex;
+            flex-direction: column;
+            background: rgba(12,21,48);
+            width: 40px;
+            margin-top: -8px;
+            z-index: 999;
+            li{
+              list-style: none;
+              width: 40px;
+              height: 40px;
+              line-height: 40px;
+              cursor:pointer;
+              text-align:center;
+              display: flex;
+              justify-content: center;
+              align-items:center;
+              span,img{
+                height: 30px;
+                width: 30px;
+              }
+            }
+          }
+          ul.chartItemColum li:hover{
+            background: rgba(50,59,88);
+          }
+        }
+        li.chartItemRow:hover{
+          background: rgba(12,21,48);
+        }
+      }
+    }
+    .chartBox{
+        overflow: auto;
+        height: 100%;
+        background-color: rgb(236,234,239);
+        img{
+            height: 209px;
+            width: 310px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%)
+        }
+      ul{
+        width:100%;
+        li{
+          width: 25%;
+          height: 400px;
+          margin: 10px;
+          list-style: none;
+          float: left;
+          display: inline-block;
+          box-shadow:8px 8px 8px #CCC;
+        }
+        .chartActive{
+          border: 2px solid blue;
+        }
+      }
+      .chartList{ /*test*/
+        width:100px;
+          height: 200px;
+          border: 1px solid darkgray;
+          margin: 10px;
+          list-style: none;
+          float: left;
+          display: inline-block;
+          position: relative;
+          .chartSetting_btn{
+             position: absolute;
+             margin: 10px;
+             right: 10px;
+             top: 0px;
+             font-size: 20px;
+             cursor: pointer;
+          }
+          .back_btn{
+              position: absolute;
+             margin: 10px;
+             right: 40px;
+             top: 0px;
+             font-size: 20px;
+             cursor: pointer;
+          }
+          .chartSetting_box{
+              width: 80px;
+              position: absolute;
+              top: 10px;
+              right: 10px;
+              border: 1px solid gainsboro;
+              background: #FFF;
+            p{
+                height: 22px;
+                line-height: 22px;
+            }
+            p:hover{
+                background: rgb(232,244,252);
+            }
+            span:first-child{
+                display: inline-block;
+                margin-left: 13px;
+            }
+            span:last-child{
+                display: inline-block;
+                margin-left: 6px;
+            }
+          }
+      }
+    }
+  }
+  .right{
+    background: rgba(63,71,94);
+    position: relative;
+    color:#FFF;
+    height: 100%;
+    width: 400px;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    .line{
+        height: 1px;
+        background: none;
+        box-shadow: 0 0.5px 0 #888;
+        margin: 0 8px;
+    }
+    .selectBox,.searchBox{
+       width: 50%;
+       border:1px solid gray;
+    }
+    p.title{
+      padding-left: 5px;
+      font-size: 12px;
+      height: 40px;
+      line-height: 40px;
+    }
+    .selectBox{
+       display: flex;
+       height:100%;
+       padding-top: 30px;
+       flex-direction: column;
+       position: relative;
+       overflow: hidden;
+      .event{
+       position: absolute;
+       top: 0;
+       width: 200px;
+      }
+      .dimensionActive{
+        border: 1px solid blue;
+       }
+       ul.MD{
+         overflow: auto;
+         flex-grow:1;
+       }
+       
+      ul.MD li{
+         list-style: none;
+         height: 22px;
+         padding-left: 10px;
+         padding-right: 8px;
+         line-height: 22px;
+         cursor: pointer;
+         color:rgb(198,200,207);
+         position: relative;
+         margin-top: 2px;
+         span{
+           display: inline-block;
+           width: 95%;
+           padding-left:5px ;
+          color: rgba(255,255,255,.7);
+          font-size: 12px;
+          border-radius: 2px;
+//        border: 1px solid red;
+         }
+      }
+       ul.MD li span:hover{
+         background: rgba(83,90,110);
+         color: #FFF;
+       }
+      .measureActive{
+        border: 1px solid greenyellow;
+      }
+      section{
+        position: relative;
+        background: rgba(63,71,94);
+        height: 50%;
+        display: flex;
+        flex-direction: column;
+        width: 208px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        p.title{
+          display: block;
+          height: 50px;
+          line-height: 50px;
+          margin: 0 8px;
+          margin-top: 5px;
+        }
+        
+      }
+    }
+    .searchBox{
+       height:100%;
+       position: relative;
+       section{
+         padding-top: 10px;
+         padding-bottom: 10px;
+       }
+       section.dimension ul li{
+           border: 1px solid green;
+           border-radius: 2px;
+       }
+       section.measure ul li{
+           border: 1px solid dodgerblue;
+           border-radius: 2px;
+       }
+       ul li.empty{
+         height: 30px;
+         line-height: 30px;
+         padding: 0;
+         border: 1px dashed gray;
+         font-size: 10px;
+         color: rgba(132,137,151);
+         background: rgba(83,90,110);
+         span.context{
+           text-align: center;
+           line-height: 30px;
+           height: 30px;
+           width: 100%;
+           text-align: center;
+           display: inline-block;
+        }
+      }
+      ul{
+        border: 1px dashed dimgray;
+        padding-bottom: 3px;
+        margin-top: 10px;
+        background: rgba(83,90,110);
+        li{
+          list-style: none;
+          height: 25px;
+          line-height: 25px;
+          background: rgba(83,90,110);
+          margin-top: 5px;
+          padding-left: 5px;
+           span:last-child{
+             cursor: pointer;
+             display: inline-block;
+             position: absolute;
+             right: 15px;
+         }
+        }
+        li:first-child{
+          margin-top: 0;
+        }
+      }
+      .btn{   
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        padding: 0;
+        span{
+          display: block;
+           height: 30px;
+           font-size: 12px;
+           line-height: 30px;
+           text-align: center;
+           width: 100%;
+           color: #FFF;
+           background: rgba(41,84,198);
+           cursor: pointer;
+        }
+        p:hover{
+          background: rgba(56,104,241);
+        }
+      }
+    }
+  }
+}
