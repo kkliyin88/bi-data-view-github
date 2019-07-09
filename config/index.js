@@ -12,7 +12,7 @@ module.exports = {
     proxyTable: {
       '/apis': {
           // 测试环境
-          target: 'http://172.16.60.26:3380',  // http://172.16.60.56:3380  //http://192.168.206.214:3380
+          target: 'http://192.168.206.201:3000/mock/128',  // http://172.16.60.56:3380  //http://192.168.206.214:3380
           changeOrigin: true,  //是否跨域
           pathRewrite: {
               '^/apis': ''   //需要rewrite重写的,

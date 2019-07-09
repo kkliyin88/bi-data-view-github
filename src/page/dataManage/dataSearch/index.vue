@@ -228,11 +228,6 @@
         this.dimensionQueryList =[];
         this.measureQueryList = [];
         this.selectEventItem ='';
-//      this.chartsList.map((item,i)=>{
-//        if(item.uuId==this.chartActiveMsg.uuId){
-//          this.chartsList[i].chartJson ={toolbox:{feature:{myTool:{show:false}}}};
-//        }
-//      })
         post(url).then(res=>{ //JSON.stringify(params)
           this.pageLoading = false;
           if(res.status == 200){
