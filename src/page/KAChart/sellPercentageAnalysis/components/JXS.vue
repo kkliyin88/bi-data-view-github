@@ -3,10 +3,10 @@
     <div>
       <Row>
         <Col :span="12">
-          <div ref="myChart1" class='chart1' :style="{height: pageHeight-120+'px'}"></div>
+          <div id="myChart1" class='chart1' :style="{height: pageHeight-200+'px'}"></div>
         </Col>
         <Col :span="12">
-            <Table  :data='tableData' :columns="columns" size='small' :max-height=" pageHeight-120"></Table>
+            <Table :data='tableData' :columns="columns"></Table>
         </Col>
       </Row>
     </div>
@@ -19,24 +19,16 @@ export default {
   data() {
     return {
       pageHeight:null,
-      loading:false,
       tableData:[],
       myChart:{},
-      relativeArr:[{},
-        {title:'办事处销售占比',url:'/kasm/saleReport/findOrgSale',param:{}},
-        {title:'分销商销售占比',url:'kasm/saleReport/findDealerSale',param:{}},
-        {title:'零售商销售占比',url:'/kasm/saleReport/findMarketSale',param:{}},
-        {title:'门店销售占比',url:'/kasm/saleReport/findStoreSale',param:{}},
-      ],
-      level:1, //1,2,3,4分别表示办事处/经销商/零售商/门店/
       columns:[
           {
               type: 'index',
               align: 'center'
           },
            {
-            title: '名称',
-            key: 'name',
+            title: '办事处',
+            key: 'orgName',
             align:'center',
           },
           {
@@ -48,29 +40,12 @@ export default {
             title: '占比',
             key: 'posSaleRatio',
             align:'center',
-            sortable: true
           },
       ],
       chartOption:{
         title: {
-          text: "",
+          text: "办事处各销售占比",
           x: "center"
-        }, 
-        toolbox: {
-            right:20,
-            feature: {
-                myTool: {
-                    show: true,
-                    title: '返回',
-                    icon: 'image://http://echarts.baidu.com/images/favicon.png',
-                    onclick:()=>{
-                        if(this.level-1 == 1 ){
-                           this.relativeArr[this.level-1].param = {}; 
-                        }
-                      this.getPageData(this.relativeArr[this.level-1].url,this.relativeArr[this.level-1].param);
-                    }
-                }
-            }
         },
         tooltip: {
           trigger: "item",
@@ -96,10 +71,10 @@ export default {
               },
               normal: {
                 label: {
-                  show: false,
+                  show: true,
                   formatter: "{b} : ({d}%)"
                 },
-                labelLine: { show: false }
+                labelLine: { show: true }
               }
             }
           }
@@ -108,11 +83,10 @@ export default {
     };
   },
   mounted() {
-      let url = '/kasm/saleReport/findOrgSale';
-      let param = {};
-     this.getPageData(this.relativeArr[this.level].url,this.relativeArr[this.level].param);
+     this.getPageData();
      window.addEventListener("resize", this.getHeight);
      this.getHeight();
+     
   },
   destroyed() {
     window.removeEventListener("resize", this.getHeight);
@@ -123,20 +97,22 @@ export default {
       this.pageHeight = window.innerHeight;
       this.$refs.wrap.style.height = this.pageHeight - 100 + "px";
     },
-    getPageData(url,param,){
-        post(url,param).then(res=>{
+    getPageData(){
+        let url='/kasm/saleReport/findOrgSale';
+        post(url).then(res=>{
+           console.log('res.data',res.data);
+           this.chartOption.series.data = [];
            this.tableData = res.data;
            res.data.map((item)=>{
-               item.value = item.posSaleRatio;
-               this.chartOption.legend.data.push(item.name);
-           });
+                item.name = item.orgName;
+                item.value = item.posSaleRatio;
+               this.chartOption.legend.data.push(item.orgName);
+           })
            this.chartOption.series[0].data = res.data;
-           this.level = res.data[0].level;
-           console.log('返回的level',this.level)
-           this.chartOption.title.text = this.relativeArr[this.level].title;
            this.drawChart1();
         }).catch(error=>{
-           console.log('error',error)
+            
+          this.loading = false;
           this.$Modal.warning({
             title:'提示',
             content:'连接服务失败!'
@@ -145,17 +121,14 @@ export default {
     },
     drawChart1() {
       // 基于准备好的dom，初始化echarts实例
-      this.myChart = this.$echarts.init(this.$refs.myChart1);
+      this.myChart = this.$echarts.init(document.getElementById("myChart1"));
       // 绘制图表
       this.myChart.setOption(this.chartOption);
       this.myChart.on('click',(params)=>{
-         if(params.data.level ==4){
-             return 
-         }
-         this.relativeArr[params.data.level+1].param.orgNo = params.data.orgNo;
-         this.getPageData(this.relativeArr[params.data.level+1].url,this.relativeArr[params.data.level+1].param);
+         console.log('params',params)
      })
     },
+    
   }
 };
 </script>
