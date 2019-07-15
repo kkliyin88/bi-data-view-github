@@ -1,6 +1,6 @@
 <template>
     <div id="sidebar-left" ref='menu_left' >
-      <Menu width='160px' :open-names="[1]"> <!--theme='dark'-->
+      <Menu width='160px' :open-names="[1]"> 
           <Submenu :name='index+1' v-for='(item,index) in menuData' :key='index'>
               <template slot="title">
                   <Icon type="ios-paper" />
@@ -63,7 +63,11 @@
                  sub:[
                     {
                       index:'/KAChart/sellPercentageAnalysis',
-                      title:'KA销售占比'
+                      title:'销售占比分析'
+                    },
+                     {
+                      index:'/KAChart/samePeriodAnalysis',
+                      title:'销售同比分析'
                     },
                  ]
                },
@@ -90,6 +94,9 @@
 <style scoped lang="less">
   #sidebar-left{
     width: 170px;
+    display: inline-block;
+    position: absolute;
+    float: left;
     overflow-y: auto;
     overflow-x: hidden;
   }

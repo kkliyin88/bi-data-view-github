@@ -159,7 +159,7 @@
         this.loading = true;
         post('/event/info/queryPageInfo',params).then(res=>{
           this.loading = false;
-          if(res.status == 200){
+          if(res.code == 200){
             this.tableData = res.data.list;
             this.tableData.map((item,index)=>{
               item.index = index+1
@@ -180,7 +180,7 @@
         if (!this.checkData.length<=0){
           let params = {ids:this.checkData};
           post(url,params).then(res=>{
-            if(res.status == 200){
+            if(res.code == 200){
               this.$Message.success('success');
               this.getPageData();
             }
@@ -201,7 +201,7 @@
       },
       showEdit(type,data){
         post('/event/type/find').then(res=>{
-          if(res.status == 200){
+          if(res.code == 200){
             this.cityList = res.data;
           }
         }).catch(error=>{

@@ -19,7 +19,7 @@ export function post(path,data,options={}){
   }
   return new Promise((resolve,reject)=>{
     axios.post(path,data,options).then((res)=>{
-      resolve(res);
+      resolve(res.data);
     }).catch((err)=>{
       reject(err);
       console.log(err,err);

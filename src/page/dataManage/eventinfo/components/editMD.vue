@@ -26,19 +26,22 @@
       getEditPageData(){
         let url = this.MDmsg.type=='D'?'/dimension/info/dimensionGetId/'  + this.MDmsg.id : '/measure/info/measureGetId/' + this.MDmsg.id;
         let params = {id:this.MDmsg.id}
-        post(url,params).then(res=>{
-          if(res.status == 200){
+        post(url,params).then(res=>{  
+            console.log('res',res)
+          if(res.code == 200){
+              console.log()
             this.sourceData = res.data.whole;
             this.sourceData.map((item)=>{
               item.label = item.name;
               item.key = item.id;
             })
             this.targetData = res.data.relation;
-            let arr = [];
             this.targetData=this.targetData.map((item)=>{
                return item.key=item.id;
             })
           }
+          console.log('targetData',this.targetData)
+           console.log('sourceData',this.sourceData)
         }).catch(error=>{
           console.log('error:',error)
           this.$Modal.warning({
@@ -54,7 +57,7 @@
         this.loading = true;
         post(url).then(res=>{
           this.loading = false;
-          if(res.status == 200){
+          if(res.code == 200){
             this.$Message.success('success');
             this.$emit('getPageData');
             this.cancel();

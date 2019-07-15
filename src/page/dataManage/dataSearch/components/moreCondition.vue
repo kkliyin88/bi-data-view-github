@@ -176,7 +176,7 @@
          this.loading = true;
         post('/dashboard/event/insert/'+formatDate(this.startDate)+'/'+formatDate(this.endDate),{...params}).then((res)=>{
           this.loading = false;
-          if(res&&res.status == 200) {
+          if(res&&res.code == 200) {
             setTimeout(()=>{
              this.$emit('getPageData');
              this.$Message.success('success');
@@ -200,7 +200,7 @@
         }
         let url = '/event/info/factTableQuery/'+eventId
         post(url).then((res)=>{
-          if(res.status == 200) {
+          if(res.code == 200) {
             this.dimensionList = res.data.dimension;
             this.measureList = res.data.measure;
             this.disableItem();
@@ -304,15 +304,6 @@
             break;
         }
         this.showDateBoxFlag = false;
-      },
-      getData(url,cb,params,loading){
-        post(url,params).then(res=>{
-          
-        }).catch(error=>{
-          this.$Modal.warning({
-            title:'提示',
-          })
-        })
       },
     }
   };

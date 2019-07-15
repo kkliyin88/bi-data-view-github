@@ -131,7 +131,7 @@
         if (!this.checkData.length<=0){
           let params = {ids:this.checkData};
           post(url,params).then(res=>{
-            if(res.status == 200){
+            if(res.code == 200){
               this.$Message.success('success');
               this.getPageData();
             }
@@ -157,7 +157,9 @@
       getPageData(){
          post('/dashboard/info/queryPageInfo',this.pageQuery.query).then(res=>{
           this.loading = false;
-          if(res.status == 200){
+          console.log('res1',res);
+           console.log('res.data.list',res.data.list)
+          if(res.code == 200){
             this.tableData = res.data.list;
             this.pageQuery.total = this.tableData.length <=0?0:this.tableData[0].total;
             this.tableData.map((item,i)=>{

@@ -138,8 +138,9 @@
       getPageData(){
         let url='/dimension/info/queryPageInfo';
         post(url,this.pageQuery.query).then(res=>{
+            console.log('res',res)
           this.loading = false;
-          if(res.status == 200){
+          if(res.code == 200){
             this.tableData = res.data.list;
             this.pageQuery.total = this.tableData.length <=0?0:this.tableData[0].total;
             this.tableData.map((item,i)=>{
@@ -167,7 +168,7 @@
         if (!this.checkData.length<=0){
           let params = {maps:this.checkData};
           post(url,params).then(res=>{
-            if(res.status == 200){
+            if(data.code == 200){
               this.$Message.success('success');
               this.getPageData();
             }

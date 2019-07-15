@@ -1,12 +1,18 @@
 <template>
   <div ref="wrap" class='wrapBox'>
+     <section class='query'>
+          <span>开始时间:<DatePicker size='small' type="month" placeholder="Select month" style="width: 150px;margin-left: 10px;"></DatePicker></span>
+           <span style="margin-left: 15px;">结束时间:<DatePicker size='small' type="month" placeholder="Select month" style="width: 150px;margin-left: 10px"></DatePicker></span>
+     </section>
     <div>
       <Row>
-        <Col :span="12">
-          <div ref="myChart1" class='chart1' :style="{height: pageHeight-120+'px'}"></div>
+        <Col :span="11" v-if='level!=4'>
+          <div ref="myChart1" class='chart1 box1' :style="{height: pageHeight-120+'px'}"></div>
         </Col>
-        <Col :span="12">
-            <Table  :data='tableData' :columns="columns" size='small' :max-height=" pageHeight-120"></Table>
+        <Col :span="level==4?24:12" :push='1' >
+            <div class='box1' :style="{height: pageHeight-120+'px'}" >
+               <Table  :data='tableData' :columns="columns" size='small' :max-height=" pageHeight-120"></Table>
+            </div>
         </Col>
       </Row>
     </div>
@@ -24,9 +30,9 @@ export default {
       myChart:{},
       relativeArr:[{},
         {title:'办事处销售占比',url:'/kasm/saleReport/findOrgSale',param:{}},
-        {title:'分销商销售占比',url:'kasm/saleReport/findDealerSale',param:{}},
-        {title:'零售商销售占比',url:'/kasm/saleReport/findMarketSale',param:{}},
-        {title:'门店销售占比',url:'/kasm/saleReport/findStoreSale',param:{}},
+        {title:'分销商销售占比',url:'/kasm/saleReport/findDealerSale',param:{}}, // orgNo
+        {title:'零售商销售占比',url:'/kasm/saleReport/findMarketSale',param:{}}, // dealerNo
+        {title:'门店销售占比',url:'/kasm/saleReport/findStoreSale',param:{}},  // marketNo
       ],
       level:1, //1,2,3,4分别表示办事处/经销商/零售商/门店/
       columns:[
@@ -55,7 +61,7 @@ export default {
         title: {
           text: "",
           x: "center"
-        }, 
+        },
         toolbox: {
             right:20,
             feature: {
@@ -65,7 +71,10 @@ export default {
                     icon: 'image://http://echarts.baidu.com/images/favicon.png',
                     onclick:()=>{
                         if(this.level-1 == 1 ){
-                           this.relativeArr[this.level-1].param = {}; 
+                           this.relativeArr[this.level-1].param = {};
+                        }
+                        if(this.level==1){
+                            return
                         }
                       this.getPageData(this.relativeArr[this.level-1].url,this.relativeArr[this.level-1].param);
                     }
@@ -80,7 +89,7 @@ export default {
           orient: "horizontal",
           x: "center",
           y: "bottom",
-          data: []  
+          data: []
         },
         calculable: true,
         series: [
@@ -108,8 +117,6 @@ export default {
     };
   },
   mounted() {
-      let url = '/kasm/saleReport/findOrgSale';
-      let param = {};
      this.getPageData(this.relativeArr[this.level].url,this.relativeArr[this.level].param);
      window.addEventListener("resize", this.getHeight);
      this.getHeight();
@@ -125,6 +132,13 @@ export default {
     },
     getPageData(url,param,){
         post(url,param).then(res=>{
+            if(res.code!==200){
+                this.$Modal.warning({
+                    title:'提示',
+                    content:res.message
+                  })
+                return
+            }
            this.tableData = res.data;
            res.data.map((item)=>{
                item.value = item.posSaleRatio;
@@ -132,7 +146,6 @@ export default {
            });
            this.chartOption.series[0].data = res.data;
            this.level = res.data[0].level;
-           console.log('返回的level',this.level)
            this.chartOption.title.text = this.relativeArr[this.level].title;
            this.drawChart1();
         }).catch(error=>{
@@ -150,9 +163,15 @@ export default {
       this.myChart.setOption(this.chartOption);
       this.myChart.on('click',(params)=>{
          if(params.data.level ==4){
-             return 
+             return
+         };
+         if(params.data.level==1){
+              this.relativeArr[params.data.level+1].param.orgNo = params.data.orgNo;
+         }else if(params.data.level==2){
+             this.relativeArr[params.data.level+1].param.dealerNo = params.data.dealerNo;
+         }else if(params.data.level==3){
+           this.relativeArr[params.data.level+1].param.marketNo = params.data.marketNo;
          }
-         this.relativeArr[params.data.level+1].param.orgNo = params.data.orgNo;
          this.getPageData(this.relativeArr[params.data.level+1].url,this.relativeArr[params.data.level+1].param);
      })
     },
@@ -165,5 +184,16 @@ export default {
        .chart1{
            width: 100%;
        }
+    }
+    .query{
+        height: 50px;
+        line-height: 50px;
+    }
+    .query:hover{
+        background: lightgray;
+    }
+    .box1{
+      background-color: #09153D !important ;
+      border: 1px solid red;
     }
 </style>
