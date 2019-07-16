@@ -15,6 +15,8 @@ import './components/template/index'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import { i18n } from './i18n/index' //国际化
+import iview2 from 'iviewxx'
+Vue.use(iview2)
 Vue.use(iView);
 Vue.use(Elementui);
 Vue.use(moment);

@@ -45,11 +45,6 @@
 <style scoped>
   .main{
   background: #f6f6f6;
-  position: absolute;
-  top: 60px;
-  left: 160px;
-  right: 0;
-  bottom: 0;
   overflow-y: auto;
   -webkit-transition: left .3s ease-in-out;
   -o-transition: left .3s ease-in-out;

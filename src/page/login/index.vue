@@ -110,7 +110,8 @@
     position: relative;
     width: 100%;
     height: 100%;
-    background: #24292e;
+    background: url('../../images/login-bg.png');
+    background-size: 100% 100%;
   }
   .loginForm{
     position: absolute;
@@ -125,7 +126,8 @@
     width: 300px;
     /*height:160px;*/
     border-radius: 5px;
-    background: #fff;
+    background: #141859;
+    border: 2px solid #1A8BFF;
   }
   .loginTitle{
     position: absolute;
@@ -139,7 +141,7 @@
     margin-top: -210px;
     font-size: 30px;
     font-weight: 600;
-    color: #fff;
+    color: #4A83FF;
   }
   .login-btn button{
     width: 100%;

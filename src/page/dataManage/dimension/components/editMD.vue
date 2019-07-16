@@ -43,10 +43,10 @@
           }
         }).catch(error=>{
           console.log('error:',error)
-          this.$Modal.warning({
-            title:'提示',
-            content:'连接服务失败!'
-          })
+          // this.$Modal.warning({
+          //   title:'提示',
+          //   content:'连接服务失败!'
+          // })
         })
       },
       sumit(){
@@ -64,10 +64,10 @@
         }).catch(error=>{
           console.log('error:',error)
           this.loading = false;
-          this.$Modal.warning({
-            title:'提示',
-            content:'连接服务失败!'
-          })
+          // this.$Modal.warning({
+          //   title:'提示',
+          //   content:'连接服务失败!'
+          // })
         })
       },
       cancel(){

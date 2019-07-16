@@ -6,6 +6,48 @@ body{
   width: 100vw;
 }
 
+::-webkit-scrollbar  
+{  
+    width: 0px;  
+    height: 0px;  
+    /* background-color: #F5F5F5;   */
+}  
+/*定义滚动条轨道 内阴影+圆角*/  
+::-webkit-scrollbar-track  
+{  
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);  
+    border-radius: 10px;  
+    /* background-color: #F5F5F5;   */
+}    
+/*定义滑块 内阴影+圆角*/  
+::-webkit-scrollbar-thumb  
+{  
+    border-radius: 10px;  
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);  
+    /* background-color: #bdbdbd;   */
+}  
+/*滑块效果*/
+::-webkit-scrollbar-thumb:hover
+{
+border-radius: 5px;
+-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+background: rgba(0,0,0,0.4);
+}
+/*IE滚动条颜色*/
+html {
+    /* scrollbar-face-color:#bfbfbf;滚动条颜色 */
+    scrollbar-highlight-color:#000;
+    scrollbar-3dlight-color:#000;
+    scrollbar-darkshadow-color:#000;
+    /* scrollbar-Shadow-color:#adadad;滑块边色 */
+    scrollbar-arrow-color:rgba(0,0,0,0.4);/*箭头颜色*/
+    /* scrollbar-track-color:#eeeeee;背景颜色 */
+}
+
+.ivu-menu-vertical.ivu-menu-light:after{
+  background-color: transparent;
+}
+
 ul{
   margin: 0;
   padding: 0;
@@ -97,24 +139,23 @@ ul{
   height: 100%;
   overflow: hidden;
   width: 100%;
+  background-color: #060C2D;
 }
 .wrapper{
   height: 100%;
   width: 100%;
+  display: flex;
   overflow: hidden;
 }
 /*main内容*/
 .main{
+  flex: 1;
   background: #f6f6f6;
-  position: absolute;
-  top: 60px;
-  left: 160px;
-  right: 0;
-  bottom: 0;
   overflow-y: auto;
   -webkit-transition: left .3s ease-in-out;
   -o-transition: left .3s ease-in-out;
   transition: left .3s ease-in-out;
+  margin-left: 14px;
 }
 .container{
   padding: 10px 20px 0 20px;
@@ -402,5 +443,54 @@ table .el-button+.el-button{
 }
 .el-menu-item i{
   color: #fff!important;
+}
+
+
+/* 登录页样式 */
+
+.el-button--primary{
+  background-color: #4E85FC;
+  border-color: #409EFF;
+  color: #f6f6f6;
+  box-shadow:0px 1px 3px rgba(18,4,45,0.22);
+}
+
+.el-input__inner{
+  background-color: #09153D;
+  border: 1px solid #1489CC;
+  color: #4E85FC;
+}
+
+/* 左侧栏的样式 */
+#sidebar-left{
+  background-color: #141859;
+}
+
+.ivu-menu-light{
+  background-color:#141859; 
+}
+.ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu){
+  background-color: transparent;
+}
+a.ivu-menu-item{
+  color: #A4A6BE;
+}
+.ivu-menu{
+  color: #A4A6BE;
+  padding: 15px 0px 0 0;
+  box-sizing: border-box;
+}
+.ivu-menu-opened .ivu-menu-submenu-title {
+  background-color: rgba(78, 133, 252, 0.26);
+  color: #FFFFFF;
+  border-radius: 0 30px 30px 0;
+  border: 1px solid #4E85FC;
+  border-left: none;
+}
+
+/* 头部样式 */
+header{
+  margin-bottom: 14px;
+  background-color: #141859;
 }
 
