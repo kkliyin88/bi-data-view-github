@@ -131,7 +131,7 @@
         let params = this.pageQuery.query
         post('/measure/info/queryPageInfo',this.pageQuery.query).then(res=>{
           this.loading = false;
-          if(res.status == 200){
+          if(res.code == 200){
             this.tableData = res.data.list;
 //          this.pageQuery.query.pageNum = res.data.pageNum;
 //          this.pageQuery.query.pageSize = res.data.pageSize;
@@ -153,7 +153,7 @@
         if (!this.checkData.length<=0){
           let params = {maps:this.checkData};
           post(url,params).then(res=>{
-            if(res.status == 200){
+            if(res.code == 200){
               this.$Message.success('success');
               this.getPageData();
             }

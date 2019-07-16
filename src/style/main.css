@@ -135,6 +135,7 @@ ul{
 }
 
 /*****HOME*****/
+<<<<<<< HEAD
 #Home{
   height: 100%;
   overflow: hidden;
@@ -160,6 +161,10 @@ ul{
 .container{
   padding: 10px 20px 0 20px;
 }
+=======
+
+
+>>>>>>> 7fb0971ec750fec7afd4e9f56e1a3a1fd793941f
 .pagination{
   margin-top: 10px;
 }

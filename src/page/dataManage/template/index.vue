@@ -159,7 +159,7 @@
         if (!this.checkData.length<=0){
           let params = {ids:this.checkData};
           post(url,params).then(res=>{
-            if(res.status == 200){
+            if(res.code == 200){
               this.$Message.success('success');
               this.getPageData();
             }
@@ -185,7 +185,7 @@
       getPageData(){
         post('/graphTemplate/queryPageInfo',{}).then(res=>{
           this.loading = false;
-          if(res.status == 200){
+          if(res.code == 200){
             this.tableData = res.data.list;
             this.tableData.map((item,index)=>{
               item.index = index+1

@@ -4,7 +4,6 @@
       <div class="wrapper">
            <sidebar ></sidebar>
           <div class="main" :style="{left:slideflag?'160px':0}">
-            <Tags></Tags>
             <div class="container">
                 <router-view></router-view>
             </div>
@@ -17,13 +16,11 @@
   import {mapState} from 'vuex'
   import headTop from '@/components/head/head'
   import Sidebar from '@/components/sidebar/sidebar'
-  import Tags from '@/components/tags/tags'
     export default {
       name: 'Home',
       components:{
         headTop,
         Sidebar,
-        Tags,
       },
       data () {
         return {
@@ -31,7 +28,7 @@
         }
       },
       mounted(){
-        
+
       },
       computed:{
         ...mapState({
@@ -51,7 +48,7 @@
   transition: left .3s ease-in-out;
 }
 .container>div{
-  background: #fff;
+  background: #000;
   border-radius: 10px;
   box-shadow: 0 1px 3px rgba(26,26,26,.1);
   -webkit-box-sizing: border-box;

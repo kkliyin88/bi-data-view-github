@@ -78,13 +78,12 @@
         let params = {
         name:this.editData.name,nameEn:this.editData.nameEn,calculationType:this.editData.calculationType,
         versions:this.editData.versions,remark:this.editData.remark};
-        console.log('type',this.editMsg.type)
         if(this.editMsg.type=='edit'){
           params.id = this.editData.id;
         }
         post(url,params).then(res=>{
           this.loading = false;
-          if(res.status == 200){
+          if(res.code == 200){
             this.$Message.success('success');
             this.$emit('getPageData');
             this.cancel();

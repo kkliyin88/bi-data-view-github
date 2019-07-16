@@ -32,9 +32,7 @@
         <Button type="primary" @click='sumit' :loading='loading'>提交</Button>
       </div>
     </Modal>
-    
   </div>
-
 </template>
 <script>
   import {post} from '@/axios/fetch';
@@ -59,8 +57,9 @@
           params.nameEn = this.editData.nameEn;
         }
         post(url,params).then(res=>{
+            console.log('res',res.data)
           this.loading = false;
-          if(res.status == 200){
+          if(res.code == 200){
             this.$Message.success('success');
             this.$emit('getPageData');
             this.cancel();

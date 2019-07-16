@@ -200,7 +200,7 @@
         let url = '/dashboard/event/coordinateSave';
         let params = {eventDtoList:this.chartSort};
         post(url,params).then(res=>{ //JSON.stringify(params)
-          if(res.status == 200){
+          if(res.code == 200){
             this.$Message.success('success');
             this.chartSort = [];
             this.getPageData();
@@ -228,9 +228,14 @@
         this.dimensionQueryList =[];
         this.measureQueryList = [];
         this.selectEventItem ='';
+//      this.chartsList.map((item,i)=>{
+//        if(item.uuId==this.chartActiveMsg.uuId){
+//          this.chartsList[i].chartJson ={toolbox:{feature:{myTool:{show:false}}}};
+//        }
+//      })
         post(url).then(res=>{ //JSON.stringify(params)
           this.pageLoading = false;
-          if(res.status == 200){
+          if(res.code == 200){
             this.chartsList=res.data.map;
             this.chartsList.map((item,index)=>{
               item.chartJson = JSON.parse(item.chartJson);
@@ -277,16 +282,16 @@
       deleteChart(item){ //删除echart
         let url = '/dashboard/event/deleteByPrimaryKey/'+item.uuId
         post(url).then(res=>{ 
-          if(res.status == 200){
+          if(res.code == 200){
            this.$Message.success('success');
            this.getPageData();
           }
         }).catch(error=>{
           console.log('error:',error)
-          // this.$Modal.warning({
-          //   title:'提示',
-          //   content:'连接服务失败!'
-          // })
+          this.$Modal.warning({
+            title:'提示',
+            content:'连接服务失败!'
+          })
         })
       },
       getHeight(){
@@ -295,7 +300,7 @@
       getEventList(){ //获取事件列表
         let url = '/event/info/eventQuery';
         post(url,).then(res=>{ //JSON.stringify(params)
-          if(res.status == 200){
+          if(res.code == 200){
             this.eventList = res.data;
           }
         }).catch(error=>{
@@ -403,7 +408,7 @@
       let url = '/event/info/factTableQuery/'+eventId
       post(url).then(res=>{ 
           this.MDLoading = false;
-          if(res.status == 200){
+          if(res.code == 200){
           this.measureList = res.data.measure;
           this.dimensionList = res.data.dimension;
           }
@@ -454,7 +459,7 @@
         let url = '/graphTemplate/queryPageInfo'
         post(url,{}).then(res=>{
           this.pageLoading = false;
-          if(res.status == 200){
+          if(res.code == 200){
             this.modelList=this.getArry(res.data.list)
           }
         }).catch(error=>{

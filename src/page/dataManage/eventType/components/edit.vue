@@ -51,7 +51,7 @@
         };
         post(url,params).then(res=>{
           this.loading = false;
-          if(res.status == 200){
+          if(res.code == 200){
             this.$Message.success('success');
             this.$emit('getPageData');
             this.cancel();

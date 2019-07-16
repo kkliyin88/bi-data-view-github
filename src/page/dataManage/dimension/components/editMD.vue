@@ -26,10 +26,8 @@
       getEditPageData(){
         let url = '/dimension/operatio/editSymbol/'+this.MDmsg.id;
         let url1 = url.toString();
-        console.log('url',url);
-        console.log('url1',url1);
         post(url).then(res=>{
-          if(res.status == 200){
+          if(res.code == 200){
             this.sourceData = res.data.whole;
             this.sourceData.map((item)=>{
               item.label = item.name;
@@ -55,7 +53,7 @@
         this.loading = true;
         post(url,params).then(res=>{
           this.loading = false;
-          if(res.status == 200){
+          if(res.code == 200){
             this.$Message.success('success');
             this.$emit('getPageData');
             this.cancel();

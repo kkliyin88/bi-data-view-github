@@ -5,191 +5,158 @@
 export default {
   data() {
     return {
-      columns1: [
+      columns: [
         {
-          width: "200",
+          type: "selection",
+          width: 60,
+          align: "center"
+        },
+        {
+          title: "维度名称",
+          key: "name",
+          align: "center"
+        },
+        {
+          title: "维度编码",
+          key: "nameEn",
+          align: "center"
+        },
+        {
+          title: "版本号",
+          key: "versions",
+          align: "center"
+        },
+        {
+          title: "更新人",
+          key: "lastUpdateUser",
+          align: "center"
+        },
+        {
+          title: "更新时间",
+          key: "lastUpdateTime",
           align: "center",
-          title: "物品名称",
-          ellipsis: true,
-          key: "name"
+          width: 180
         },
         {
-          width: "100",
+          title: "备注",
+          key: "remark",
+          align: "center"
+        },
+        {
+          title: "操作",
+          width: 200,
           align: "center",
-          title: "数量",
-          ellipsis: true,
-          key: "purchaseAmount"
-        },
-        {
-          width: "166",
-          align: "center",
-          title: "lyy369",
-          ellipsis: true,
-          key: "supplier_11113173785",
-          children: [
-            {
-              width: "100",
-              align: "center",
-              title: "单价(元)",
-              ellipsis: true,
-              key: "quoteUnitPrice_11113173785"
-            },
-            {
-              width: "100",
-              align: "center",
-              title: "总计(元)",
-              ellipsis: true,
-              key: "quoteTotalPrice_11113173785"
-            }
-          ]
-        },
-        {
-          width: "166",
-          align: "center",
-          title: "私人定制",
-          ellipsis: true,
-          key: "supplier_11113173838",
-          children: [
-            {
-              width: "100",
-              align: "center",
-              title: "单价(元)",
-              ellipsis: true,
-              key: "quoteUnitPrice_11113173838"
-            },
-            {
-              width: "100",
-              align: "center",
-              title: "总计(元)",
-              ellipsis: true,
-              key: "quoteTotalPrice_11113173838"
-            }
-          ]
-        }
-      ],
-      data1: [
-        {
-          name: "手动添加",
-
-          purchaseAmount: "9887.00",
-
-          quoteTotalPrice_11113173785: "494350.00",
-
-          supplierId_11113173785: "11113173785",
-
-          quoteAmount_11113173785: "9887.0000",
-
-          quoteUnitPrice_11113173785: "50.0000",
-
-          quoteTotalPrice_11113173838: "988700.00",
-
-          supplierId_11113173838: "11113173838",
-
-          quoteAmount_11113173838: "9887.0000",
-
-          quoteUnitPrice_11113173838: "100.0000"
-        },
-
-        {
-          name: "2018年7月9日",
-
-          purchaseAmount: "1.00",
-
-          quoteTotalPrice_11113173785: "50.00",
-
-          supplierId_11113173785: "11113173785",
-
-          quoteAmount_11113173785: "1.0000",
-
-          quoteUnitPrice_11113173785: "50.0000",
-
-          quoteTotalPrice_11113173838: "100.00",
-
-          supplierId_11113173838: "11113173838",
-
-          quoteAmount_11113173838: "1.0000",
-
-          quoteUnitPrice_11113173838: "100.0000"
-        },
-
-        {
-          name: " 中国移动取消流量“漫游”费",
-
-          purchaseAmount: "563.00",
-
-          quoteTotalPrice_11113173785: "28150.00",
-
-          supplierId_11113173785: "11113173785",
-
-          quoteAmount_11113173785: "563.0000",
-
-          quoteUnitPrice_11113173785: "50.0000"
-        },
-
-        {
-          name: " 中国移动取消流量“漫游”费",
-
-          purchaseAmount: "23.00",
-
-          quoteTotalPrice_11113173785: "1150.00",
-
-          supplierId_11113173785: "11113173785",
-
-          quoteAmount_11113173785: "23.0000",
-
-          quoteUnitPrice_11113173785: "50.0000",
-
-          quoteTotalPrice_11113173838: "2300.00",
-
-          supplierId_11113173838: "11113173838",
-
-          quoteAmount_11113173838: "23.0000",
-
-          quoteUnitPrice_11113173838: "100.0000"
-        },
-        {
-          // 每一条，表示有一行
-
-          total: "合计", // 展示的数据
-
-          key: "total", // 表头的key
-
-          align: "center",
-
-          ellipsis: true,
-
-          colspan: "2", // 需要计算合并列的个数
-
-          tableBody: [
-            // tableBody.length 表示有多少个值
-
-            {
-              total_11113173785: "523700.00",
-
-              key: "total_11113173785",
-
-              colspan: "2",
-
-              align: "center",
-
-              ellipsis: true
-            },
-
-            {
-              total_11113173838: "991100.00",
-
-              key: "total_11113173838",
-
-              colspan: "2",
-
-              align: "center",
-
-              ellipsis: true
-            }
-          ]
+          render: (h, params) => {
+            return h("div", [
+              h(
+                "Button",
+                {
+                  props: {
+                    type: "dashed"
+                  },
+                  on: {
+                    click: () => {
+                      this.showEdit("edit", params.row);
+                    }
+                  }
+                },
+                "编辑"
+              ),
+              h(
+                "Button",
+                {
+                  props: {
+                    type: "dashed"
+                  },
+                  style: {
+                    marginLeft: "5px"
+                  },
+                  on: {
+                    click: () => {
+                      this.showEditMD(params.row.id, "D", "运算符");
+                    }
+                  }
+                },
+                "编辑运算符"
+              )
+            ]);
+          }
         }
       ]
     };
+  },
+  mounted() {
+    this.getPageData();
+    window.addEventListener("resize", this.getHeight);
+    this.getHeight();
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.getHeight);
+  },
+  methods: {
+    showEditMD(id, type, title) {
+      this.MDmsg = { id: id, type: type, title: title };
+      this.editMDFlag = true;
+    },
+    getHeight() {
+      //设置页面高度
+      this.pageHeight = window.innerHeight;
+      this.$refs.wrap.style.height = this.pageHeight - 80 + "px";
+    },
+    showEdit(type, data) {
+      //type =>add/edit
+      this.editMsg = { title: type == "edit" ? "编辑" : "新增", type: type };
+      this.editData =
+        type == "edit"
+          ? JSON.parse(JSON.stringify(data))
+          : { name: "", nameEn: "", versions: "", remark: "" };
+      this.editFlag = true;
+    },
+    getPageData() {
+      let url = "/dimension/info/queryPageInfo";
+      post(url, this.pageQuery.query)
+        .then(res => {
+          console.log("res", res);
+          this.loading = false;
+          if (res.code == 200) {
+            this.tableData = res.data.list;
+            this.pageQuery.total =
+              this.tableData.length <= 0 ? 0 : this.tableData[0].total;
+            this.tableData.map((item, i) => {
+              item.index = i + 1;
+            });
+          }
+        })
+        .catch(error => {
+          this.loading = false;
+          this.$Modal.warning({
+            title: "提示",
+            content: "连接服务失败!"
+          });
+        });
+    },
+    changePageNum(num) {
+      //改变页码
+      this.pageQuery.query.pageNum = num;
+      this.getPageData();
+    },
+    changePageSize(num) {
+      //改变每页显示条数
+      this.pageQuery.query.pageSize = num;
+      this.getPageData();
+    },
+    del() {
+      let url = "/dimension/info/deleteByPrimaryKey";
+      if (!this.checkData.length <= 0) {
+        let params = { maps: this.checkData };
+        post(url, params).then(res => {
+          if (data.code == 200) {
+            this.$Message.success("success");
+            this.getPageData();
+          }
+        });
+      }
+    }
   }
 };
 </script>
