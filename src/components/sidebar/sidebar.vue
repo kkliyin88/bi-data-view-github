@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
   <div id="sidebar-left" ref="menu_left">
     <Menu width="160px" :open-names="[1]" text-color="#A4A6BE">
       <!--theme='dark'-->
@@ -61,81 +60,6 @@ export default {
             {
               index: "/dataManage/eventType",
               title: "事件类型"
-=======
-    <div id="sidebar-left" ref='menu_left' >
-      <Menu width='160px' :open-names="[1]"> 
-          <Submenu :name='index+1' v-for='(item,index) in menuData' :key='index'>
-              <template slot="title">
-                  <Icon type="ios-paper" />
-                  {{item.title}}
-              </template>
-              <MenuItem v-for='(item2,i) in item.sub' :to='item2.index'  :key='i':name='item2.title'>{{item2.title}}</MenuItem>
-          </Submenu>
-      </Menu>
-    </div>
-</template>
-<script>
-  import {mapState,mapActions} from 'vuex'
-    export default {
-        name: 'sidebar',
-        data () {
-            return {
-              indexPath:[],//保存点击过的页面路由信息
-              pageHeight:window.innerHeight,
-               menuData:
-              [
-               {
-                 title:'数据维护',
-                 sub:[
-                    {
-                      index:'/dataManage/dimension',
-                      title:'维度'
-                    },
-                    {
-                      index:'/dataManage/measureinfo',
-                      title:'度量'
-                    },
-                    {
-                      index:'/dataManage/eventinfo',
-                      title:'事件'
-                    },
-                    {
-                      index:'/dataManage/meter',
-                      title:'仪表'
-                    },
-                    {
-                      index:'/dataManage/template',
-                      title:'模板'
-                    },
-                    {
-                      index:'/dataManage/operation',
-                      title:'运算'
-                    },
-                    {
-                      index:'/dataManage/chinaMap',
-                      title:'地图'
-                    },
-                   {
-                     index:'/dataManage/eventType',
-                     title:'事件类型'
-                   }
-                 ]
-               },
-               {
-                 title:'KA图表',
-                 sub:[
-                    {
-                      index:'/KAChart/sellPercentageAnalysis',
-                      title:'销售占比分析'
-                    },
-                     {
-                      index:'/KAChart/samePeriodAnalysis',
-                      title:'销售同比分析'
-                    },
-                 ]
-               },
-              ],
->>>>>>> 7fb0971ec750fec7afd4e9f56e1a3a1fd793941f
             }
           ]
         },
@@ -179,22 +103,10 @@ export default {
 };
 </script>
 <style scoped lang="less">
-<<<<<<< HEAD
 #sidebar-left {
   width: 170px;
   overflow-y: auto;
   overflow-x: hidden;
   
 }
-=======
-  #sidebar-left{
-    width: 170px;
-    display: inline-block;
-    position: absolute;
-    float: left;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
->>>>>>> 7fb0971ec750fec7afd4e9f56e1a3a1fd793941f
 </style>
