@@ -6,13 +6,11 @@
      </section>
     <div>
       <Row>
-        <Col :span="11" v-if='level!=4'>
-          <div ref="myChart1" class='chart1 box1' :style="{height: pageHeight-120+'px'}"></div>
+        <Col :span="12" v-if='level!=4'>
+          <div ref="myChart1" class='chart1' :style="{height: pageHeight-120+'px'}"></div>
         </Col>
-        <Col :span="level==4?24:12" :push='1' >
-            <div class='box1' :style="{height: pageHeight-120+'px'}" >
-               <Table  :data='tableData' :columns="columns" size='small' :max-height=" pageHeight-120"></Table>
-            </div>
+        <Col :span="level==4?24:12">
+            <Table  :data='tableData' :columns="columns" size='small' :max-height=" pageHeight-120"></Table>
         </Col>
       </Row>
     </div>
@@ -61,7 +59,7 @@ export default {
         title: {
           text: "",
           x: "center"
-        },
+        }, 
         toolbox: {
             right:20,
             feature: {
@@ -71,10 +69,10 @@ export default {
                     icon: 'image://http://echarts.baidu.com/images/favicon.png',
                     onclick:()=>{
                         if(this.level-1 == 1 ){
-                           this.relativeArr[this.level-1].param = {};
+                           this.relativeArr[this.level-1].param = {}; 
                         }
                         if(this.level==1){
-                            return
+                            return 
                         }
                       this.getPageData(this.relativeArr[this.level-1].url,this.relativeArr[this.level-1].param);
                     }
@@ -89,7 +87,7 @@ export default {
           orient: "horizontal",
           x: "center",
           y: "bottom",
-          data: []
+          data: []  
         },
         calculable: true,
         series: [
@@ -137,7 +135,7 @@ export default {
                     title:'提示',
                     content:res.message
                   })
-                return
+                return 
             }
            this.tableData = res.data;
            res.data.map((item)=>{
@@ -163,14 +161,14 @@ export default {
       this.myChart.setOption(this.chartOption);
       this.myChart.on('click',(params)=>{
          if(params.data.level ==4){
-             return
+             return 
          };
          if(params.data.level==1){
               this.relativeArr[params.data.level+1].param.orgNo = params.data.orgNo;
          }else if(params.data.level==2){
              this.relativeArr[params.data.level+1].param.dealerNo = params.data.dealerNo;
          }else if(params.data.level==3){
-           this.relativeArr[params.data.level+1].param.marketNo = params.data.marketNo;
+           this.relativeArr[params.data.level+1].param.marketNo = params.data.marketNo; 
          }
          this.getPageData(this.relativeArr[params.data.level+1].url,this.relativeArr[params.data.level+1].param);
      })
@@ -191,9 +189,5 @@ export default {
     }
     .query:hover{
         background: lightgray;
-    }
-    .box1{
-      background-color: #09153D !important ;
-      border: 1px solid red;
     }
 </style>

@@ -69,18 +69,14 @@ export default {
             {
               index: "/KAChart/sellPercentageAnalysis",
               title: "KA销售占比"
-            }
+            },
+			 {
+			  index:'/KAChart/samePeriodAnalysis',
+			  title:'销售同比分析'
+			},
           ]
         },
-        {
-          title: "ivie",
-          sub: [
-            {
-              index: "/ii/itable.vue",
-              title: "iview表格"
-            }
-          ]
-        }
+        
       ]
     };
   },

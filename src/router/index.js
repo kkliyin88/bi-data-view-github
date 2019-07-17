@@ -17,7 +17,7 @@ const chinaMap = resolve => require(['@/page/dataManage/chinaMap'], resolve)
 const EventType = resolve => require(['@/page/dataManage/eventType'], resolve)
 //菜单二
 const sellPercentageAnalysis = resolve => require(['@/page/KAChart/sellPercentageAnalysis'], resolve)
-const samePeriodAnalysis = resolve => require(['@/page/KAChart/sellPercentageAnalysis'], resolve)
+const samePeriodAnalysis = resolve => require(['@/page/KAChart/samePeriodAnalysis'], resolve)
 
 Vue.use(Router);
 export default new Router({

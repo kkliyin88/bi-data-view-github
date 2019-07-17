@@ -207,10 +207,10 @@
           }
         }).catch(error=>{
           console.log('error:',error)
-          // this.$Modal.warning({
-          //   title:'提示',
-          //   content:'连接服务失败!'
-          // })
+          this.$Modal.warning({
+            title:'提示',
+            content:'连接服务失败!'
+          })
         })
       },
       tips(){
@@ -246,10 +246,10 @@
         }).catch(error=>{
           console.log('error:',error)
           this.pageLoading = false;
-          // this.$Modal.warning({
-          //   title:'提示',
-          //   content:'连接服务失败!'
-          // })
+          this.$Modal.warning({
+            title:'提示',
+            content:'连接服务失败!'
+          })
         })
       },
      async initChart(){
@@ -305,10 +305,10 @@
           }
         }).catch(error=>{
           console.log('error:',error)
-          // this.$Modal.warning({
-          //   title:'提示',
-          //   content:'连接服务失败!'
-          // })
+          this.$Modal.warning({
+            title:'提示',
+            content:'连接服务失败!'
+          })
         })
         
       },
@@ -415,10 +415,10 @@
         }).catch(error=>{
           console.log('error:',error);
           this.MDLoading = false;
-          // this.$Modal.warning({
-          //   title:'提示',
-          //   content:'连接服务失败!'
-          // })
+          this.$Modal.warning({
+            title:'提示',
+            content:'连接服务失败!'
+          })
         })
     },
     singleClick(index,type){ //单击添加class
@@ -465,10 +465,10 @@
         }).catch(error=>{
           console.log('error:',error)
           this.pageLoading = false;
-          // this.$Modal.warning({
-          //   title:'提示',
-          //   content:'连接服务失败!'
-          // })
+          this.$Modal.warning({
+            title:'提示',
+            content:'连接服务失败!'
+          })
         })
       },
     }
