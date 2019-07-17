@@ -136,7 +136,6 @@ ul{
 /*main内容*/
 .main{
   flex: 1;
-  background: #f6f6f6;
   overflow-y: auto;
   -webkit-transition: left .3s ease-in-out;
   -o-transition: left .3s ease-in-out;
@@ -156,7 +155,7 @@ ul{
 }
 /*标题*/
 .container{
-  background:rgba(9,21,61,1);
+  background:#09153D;
 }
 .container h2{
   margin:10px 0;
@@ -491,6 +490,13 @@ table tbody.ivu-table-tbody tr.ivu-table-row:nth-child(2n) td.ivu-table-column-c
 table tbody.ivu-table-tbody tr.ivu-table-row:nth-child(2n-1) td.ivu-table-column-center{
    background:rgba(16,29,74,1);
    border: none;
+}
+
+.ivu-table td{
+  background-color: #09153D;
+}
+.ivu-table:before{
+  background-color: #09153D;
 }
 /* 页码样式*/
 .pagesize_box{
