@@ -1,7 +1,6 @@
 <template>
   <div id="sidebar-left" ref="menu_left">
     <Menu width="160px" :open-names="[1]" text-color="#A4A6BE">
-      <!--theme='dark'-->
       <Submenu :name="index+1" v-for="(item,index) in menuData" :key="index">
         <template slot="title">
           <Icon type="ios-paper" />
@@ -53,10 +52,7 @@ export default {
               index: "/dataManage/operation",
               title: "运算"
             },
-            {
-              index: "/dataManage/chinaMap",
-              title: "地图"
-            },
+
             {
               index: "/dataManage/eventType",
               title: "事件类型"
@@ -76,7 +72,7 @@ export default {
 			},
           ]
         },
-        
+
       ]
     };
   },
@@ -103,6 +99,6 @@ export default {
   width: 170px;
   overflow-y: auto;
   overflow-x: hidden;
-  
+
 }
 </style>

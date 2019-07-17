@@ -1,9 +1,9 @@
 <template>
   <div ref='wrap'>
-    <div class="addBTN">
-      <Button icon="plus" @click="showEdit('add')" type="info">添加</Button>
-      <Button icon="plus" @click="del" type="warning">删除</Button>
-    </div>
+    <section class='search_box'>
+        <Button icon="plus" size='small' @click="showEdit('add')" type="info">添加</Button>
+        <Button icon="plus" size='small'  @click="del" type="warning">删除</Button>
+    </section>
     <div class='table_box'>
       <Table border ref="selection" :columns="columns"  :loading='loading' @on-selection-change="selectionData" :data="tableData" :height='pageHeight -210'> </Table>
     </div>
@@ -86,7 +86,12 @@
                   return h('div', [
                       h('Button', {
                           props: {
-                             type: 'dashed'
+                              size: 'small',
+                               type:'text',
+                          },
+                          style: {
+                            background:'#242E56',
+                            color:'#CFD5E8',
                           },
                           on: {
                               click: () => {
@@ -178,10 +183,6 @@
   };
 </script>
 <style scoped lang="less">
-  .addBTN{
-      height: 50px;
-      line-height: 50px;
-    }
   .pagesize_box{
       position: absolute;
       bottom: 10px;

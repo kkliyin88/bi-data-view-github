@@ -11,7 +11,6 @@
         </div>
       </div>
 </template>
-
 <script>
   import {mapState} from 'vuex'
   import headTop from '@/components/head/head'
@@ -24,7 +23,7 @@
       },
       data () {
         return {
-            slideflag:true,
+          slideflag:true,
         }
       },
       mounted(){
@@ -39,22 +38,3 @@
       }
     }
 </script>
-<style scoped>
-  .main{
-  background: #f6f6f6;
-  overflow-y: auto;
-  -webkit-transition: left .3s ease-in-out;
-  -o-transition: left .3s ease-in-out;
-  transition: left .3s ease-in-out;
-}
-.container>div{
-  background: #000;
-  border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(26,26,26,.1);
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  padding:0 20px 10px;
-
-}
-</style>

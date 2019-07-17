@@ -15,8 +15,8 @@ import './components/template/index'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import { i18n } from './i18n/index' //国际化
-import iview2 from 'iviewxx'
-Vue.use(iview2)
+// import iview2 from 'iviewxx'
+// Vue.use(iview2)
 Vue.use(iView);
 Vue.use(Elementui);
 Vue.use(moment);
@@ -31,7 +31,7 @@ router.beforeEach((to, from, next) => {
   NProgress.start()
   const user = localStorage.getItem('lz_userName');
   const pass = localStorage.getItem('lz_passNumber');
-   if (!user && !pass && to.path !== '/login') { 
+   if (!user && !pass && to.path !== '/login') {
      next('/login');
   }else{
        localStorage.setItem('lz_userName', user);

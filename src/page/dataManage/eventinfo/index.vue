@@ -1,8 +1,8 @@
 <template>
   <div class='event_wrap' ref='wrap'>
-    <div class="addBTN">
-      <Button  @click="showEdit('add')" type="info">添加</Button>
-      <Button icon="plus" @click="del" type="warning">删除</Button>
+    <div class="search_box">
+      <Button size='small' @click="showEdit('add')" type="info">添加</Button>
+      <Button  size='small' icon="plus" @click="del" type="warning">删除</Button>
     </div>
     <div class='table_box'>
       <Table border ref="selection" :columns="columns"  :loading='loading' @on-selection-change="selectionData" :data="tableData" :height='pageHeight -210'> </Table>
@@ -90,10 +90,12 @@
                   return h('div', [
                       h('Button', {
                           props: {
-                              size: 'small'
+                              size: 'small',
+                               type:'text',
                           },
                           style: {
-                              marginLeft: '5px'
+                            background:'#242E56',
+                            color:'#CFD5E8',
                           },
                           on: {
                               click: () => {
@@ -103,10 +105,13 @@
                       }, '修改'),
                       h('Button', {
                           props: {
-                              size: 'small'
+                              size: 'small',
+                              type:'text',
                           },
                           style: {
-                              marginLeft: '5px'
+                            marginLeft: '5px',
+                            background:'#242E56',
+                            color:'#CFD5E8',
                           },
                           on: {
                               click: () => {
@@ -116,10 +121,13 @@
                       }, '编辑维度'),
                       h('Button', {
                           props: {
-                              size: 'small'
+                              size: 'small',
+                              type:'text',
                           },
                           style: {
-                              marginLeft: '5px'
+                            marginLeft: '5px',
+                            background:'#242E56',
+                            color:'#CFD5E8',
                           },
                           on: {
                               click: () => {
@@ -226,11 +234,6 @@
 </script>
 <style scoped lang="less">
   .event_wrap{
-    border: 1px solid #EFEFEF;
-    .addBTN{
-      height: 50px;
-      line-height: 50px;
-    }
     .table_box{
       .operator{
         display: inline-block;

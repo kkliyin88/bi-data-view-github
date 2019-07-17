@@ -13,7 +13,7 @@ const Eventinfo = resolve => require(['@/page/dataManage/eventinfo'], resolve)
 const Meter = resolve => require(['@/page/dataManage/meter'], resolve)
 const Template = resolve => require(['@/page/dataManage/template'], resolve)
 const Operation = resolve => require(['@/page/dataManage/operation'], resolve)
-const chinaMap = resolve => require(['@/page/dataManage/chinaMap'], resolve)
+// const chinaMap = resolve => require(['@/page/dataManage/chinaMap'], resolve)
 const EventType = resolve => require(['@/page/dataManage/eventType'], resolve)
 //菜单二
 const sellPercentageAnalysis = resolve => require(['@/page/KAChart/sellPercentageAnalysis'], resolve)
@@ -84,11 +84,11 @@ export default new Router({
           component: EventType,
           meta: { title: '事件类型' }
         },
-        {
-          path: '/dataManage/chinaMap',
-          component: chinaMap,
-          meta: { title: '地图' }
-        },
+        // {
+        //   path: '/dataManage/chinaMap',
+        //   component: chinaMap,
+        //   meta: { title: '地图' }
+        // },
          {
           path: '/KAChart/sellPercentageAnalysis',
           component: sellPercentageAnalysis,
@@ -99,7 +99,7 @@ export default new Router({
           component: samePeriodAnalysis,
           meta: { title: '销售同比分析' }
         },
-        
+
       ]
     },
     {

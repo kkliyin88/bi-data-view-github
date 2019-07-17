@@ -1,14 +1,14 @@
 <template>
   <div  ref='wrap'>
-    <div class="addBTN">
-      <Button icon="plus" @click="showEdit('add')" type="info">添加</Button>
-      <Button icon="plus" @click="del" type="warning">删除</Button>
-    </div>
+    <section class='search_box'>
+      <Button icon="plus" size='small' @click="showEdit('add')" type="info">添加</Button>
+      <Button icon="plus" size='small' @click="del" type="warning">删除</Button>
+    </section>
     <div class='table_box'>
-      <Table border ref="selection" :columns="columns"  :loading='loading' @on-selection-change="selectionData" :data="tableData" :height='pageHeight -210'> </Table>
+      <Table border ref="selection" size='small' :columns="columns"  :loading='loading' @on-selection-change="selectionData" :data="tableData" :maxheight='pageHeight -210'> </Table>
     </div>
     <div class="pagesize_box">
-       <Page :total='pageQuery.total' @on-change='changePageNum' @on-page-size-change='changePageSize' :page-size-opts='[10,20,30]' show-elevator show-sizer show-total />
+       <Page :total='pageQuery.total' size='small' @on-change='changePageNum' @on-page-size-change='changePageSize' :page-size-opts='[10,20,30]' show-elevator show-sizer show-total />
     </div>
     <div v-if='editFlag'>
       <Edit :editData='editData' @getPageData='getPageData' v-model='editFlag' :editMsg='editMsg'> </Edit>
@@ -22,6 +22,7 @@
   import Edit from './components/edit';
   import EditMD from './components/editMD';
   import {post} from '@/axios/fetch';
+
   export default {
     components: {
      Edit,EditMD
@@ -86,7 +87,12 @@
                   return h('div', [
                       h('Button', {
                           props: {
-                             type: 'dashed'
+                             size:'small',
+                             type:'text',
+                          },
+                          style: {
+                            background:'#242E56',
+                            color:'#CFD5E8'
                           },
                           on: {
                               click: () => {
@@ -96,10 +102,13 @@
                       }, '编辑'),
                       h('Button', {
                         props: {
-                          type: 'dashed',
+                          size:'small',
+                          type:'text',
                         },
                         style: {
-                          marginLeft: '5px'
+                          marginLeft: '5px',
+                          background:'#242E56',
+                          color:'#CFD5E8',
                         },
                         on: {
                           click: () => {
@@ -193,12 +202,6 @@
   };
 </script>
 <style scoped>
-  .addBTN{
-      height: 50px;
-      line-height: 50px;
-    }
-  .pagesize_box{
-      position: absolute;
-      bottom: 10px;
-    }
+
+
 </style>
