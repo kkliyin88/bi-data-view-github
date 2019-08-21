@@ -42,7 +42,8 @@
       </Form>
    </section>
    <section ref='table'>
-     <Table  :data='pageData' :loading='loading' :columns='columns' size='small' :maxHeight='pageHeight-150'></Table>
+    <!-- <Table  :data='pageData' :loading='loading' :columns='columns' size='small' :maxHeight='pageHeight-150'></Table> -->
+     <Table  :data='pageData1' :loading='loading' :columns='columns1' size='small' :maxHeight='pageHeight-150'></Table>
    </section>
   </div>
 </template>
@@ -89,6 +90,8 @@ export default {
             minWidth:100,
           },
         ],
+        columns1:[],
+        pageData1:[{}]
       }
   },
   mounted() {
@@ -97,10 +100,24 @@ export default {
      this.getOrgNoList();
      this.getDealerNoList(this.query.orgNo);
      this.getRoleList();
+     this.test();
   },
   destroyed() {
   },
   methods: {
+
+    test(){
+      for(let i=0;i<20;i++){
+        this.columns1.push({
+            title:`test${i}`,
+            key:`name${i}`,
+            align: 'center',
+            minWidth:100,
+          });
+        this.pageData1[0][`name${i}`] = i;
+      }
+
+    },
     search(){
       let url = '/kasm/staffReport/findStaffSaleReport';
       let params= JSON.parse(JSON.stringify(this.query))
