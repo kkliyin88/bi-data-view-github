@@ -14,12 +14,18 @@ import echarts from 'echarts'
 import './components/template/index'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
+// import './style/iview.css';
 import { i18n } from './i18n/index' //国际化
-// import iview2 from 'iviewxx'
-// Vue.use(iview2)
+import  'echarts/theme/macarons.js'
+import  'echarts/theme/dark.js'
+import  'echarts/theme/vintage.js'
+import  'echarts/theme/shine.js'
+
 Vue.use(iView);
 Vue.use(Elementui);
 Vue.use(moment);
+
+
 Vue.config.productionTip = false;
 //Vue.prototype.$http = Axios;
 Vue.prototype.$echarts = echarts

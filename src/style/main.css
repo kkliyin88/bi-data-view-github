@@ -123,7 +123,6 @@ ul{
 
 #Home{
   height: 100%;
-  overflow: hidden;
   width: 100%;
   background-color: #060C2D;
 }
@@ -131,11 +130,11 @@ ul{
   height: 100%;
   width: 100%;
   display: flex;
-  overflow: hidden;
 }
 /*main内容*/
 .main{
   flex: 1;
+  background: #f6f6f6;
   overflow-y: auto;
   -webkit-transition: left .3s ease-in-out;
   -o-transition: left .3s ease-in-out;
@@ -155,7 +154,7 @@ ul{
 }
 /*标题*/
 .container{
-  background:#09153D;
+  background:rgba(37,44,72,1);
 }
 .container h2{
   margin:10px 0;
@@ -228,9 +227,6 @@ header{
   color: #fff;
   font-size: 20px;
 }
-
-
-
 .head_search{
   align-items: center;
   display: -webkit-flex;
@@ -424,30 +420,40 @@ table .el-button+.el-button{
 }
 
 /* 左侧栏的样式 */
-#sidebar-left{
-  background-color: #141859;
-}
 
 .ivu-menu-light{
-  background-color:#141859;
+  background-color:rgba(45,55,90,1)!important;
 }
 .ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu){
   background-color: transparent;
+
+}
+#sidebar-left .ivu-menu li.ivu-menu-item-active ul.ivu-menu a.ivu-menu-item:hover{
+  background-color:rgba(45,30,30,1)!important;
+}
+#sidebar-left .ivu-menu li.ivu-menu-item-active ul.ivu-menu a.ivu-menu-item-active span{
+  color:#3B9B9E;
 }
 a.ivu-menu-item{
-  color: #A4A6BE;
+  color: #A4A6BE!important;
 }
 .ivu-menu{
   color: #A4A6BE;
   padding: 15px 0px 0 0;
   box-sizing: border-box;
+  cursor: pointer;
 }
 .ivu-menu-opened .ivu-menu-submenu-title {
-  background-color: rgba(78, 133, 252, 0.26);
+  background-color: rgba(37,44,72,1);
   color: #FFFFFF;
+  font-size: 18px;
   border-radius: 0 30px 30px 0;
-  border: 1px solid #4E85FC;
+  border: 1px solid rgba(37,44,72,1);
   border-left: none;
+}
+
+.ivu-menu a{
+  padding-left: 20px!important;
 }
 
 /* 头部样式 */
@@ -468,36 +474,74 @@ header{
 .ivu-table{
   background:rgba(9,21,61,1);
 }
-.ivu-table-body{
-  background:rgba(9,21,61,1);
-  color: white;
-}
+
 /* 修改iview table 样式 */
-
-
 .ivu-table-wrapper{
   border: none;
 }
+.ivu-table-body{
+   background:rgba(37,44,72,1);
+}
+ .ivu-table-wrapper .ivu-table-small .ivu-table-tip table tbody tr td{  /* 暂无数据 */
+   background:rgba(37,44,72,1)!important;
+}
+ .ivu-table-border td, .ivu-table-border th {
+   border: none;
+ }
 .ivu-table-wrapper .ivu-table div.ivu-table-header table thead tr th.ivu-table-column-center{
-  background:rgba(37,41,104,1)!important;
+  background:rgba(37,44,72,1);
   color:rgba(78,133,252,1);
   border: none;
 }
-table tbody.ivu-table-tbody tr.ivu-table-row:nth-child(2n) td.ivu-table-column-center{
-   background:rgba(9,21,61,1);
+
+/* table tbody.ivu-table-tbody tr.ivu-table-row:nth-child(2n) td.ivu-table-column-center{
+    background:rgba(37,44,72,1);
+   border: none;
+} */
+table tbody.ivu-table-tbody tr.ivu-table-row td.ivu-table-column-center{
+  background:rgba(9,21,61,1);
    border: none;
 }
-table tbody.ivu-table-tbody tr.ivu-table-row:nth-child(2n-1) td.ivu-table-column-center{
-   background:rgba(16,29,74,1);
-   border: none;
+.ivu-table-body .ivu-table-cell span{
+  color:#FFF;
 }
 
-.ivu-table td{
-  background-color: #09153D;
+.ivu-table .same-period-analysis-cell span{ /*设置KAChart->samePeriodAnalysis合并单元格*/
+     color:rgba(9,21,61,1);
 }
-.ivu-table:before{
-  background-color: #09153D;
+.ivu-table .same-period-analysis-cell1{
+  cursor:pointer;
 }
+.ivu-table .ivu-table-body .ivu-table-tbody tr.same-period-analysis-row td{
+  border-bottom:2px solid gray!important;
+}
+
+
+.ivu-table:before {
+  background:#060C2D;
+  width: 0;
+  height: 0;
+}
+.ivu-table:after{
+  background:#060C2D;
+  width: 0;
+  height: 0;
+}
+
+
+/* table loading样式 */
+.ivu-table-wrapper>.ivu-spin-fix{
+  background: null;
+}
+.ivu-spin-fix{
+  background-color: #060C2D;
+  opacity: 0.3;
+}
+.ivu-spin-dot{
+  background-color: yellow;
+}
+
+
 /* 页码样式*/
 .pagesize_box{
   position: absolute;
@@ -506,4 +550,69 @@ table tbody.ivu-table-tbody tr.ivu-table-row:nth-child(2n-1) td.ivu-table-column
   width: 100%;
   height: 40px;
   line-height: 40px;
+}
+
+/* input样式 */
+.ivu-input-wrapper .ivu-input-group-prepend{
+  background:rgba(58,71,103,1);
+  color: #FFF;
+}
+
+/* 页码 */
+ .ivu-page .ivu-page-total{
+   background:rgba(16,21,44,1);
+   border:1px solid rgba(83,95,138,1);
+   border-radius:4px;
+   height:32px;
+   color:rgba(207,213,232,1);
+   padding:0 3px;
+ }
+ul.ivu-page  li{
+  background:rgba(16,21,44,1);
+  border:1px solid rgba(83,95,138,1)!important;
+  border-radius:4px;
+  height:32px;
+  line-height: 32px;
+  color:rgba(207,213,232,1);
+  padding:0 3px;
+}
+.ivu-page-options .ivu-page-options-sizer .ivu-select .ivu-select-selection{
+  background:rgba(16,21,44,1);
+  border:1px solid rgba(83,95,138,1)!important;
+  border-radius:4px;
+  color:rgba(207,213,232,1);
+  padding:0 3px;
+}
+.ivu-page-options .ivu-page-options-elevator{
+  color:rgba(207,213,232,1);
+}
+.ivu-page-options .ivu-page-options-elevator input{
+  background:rgba(16,21,44,1);
+  border:1px solid rgba(83,95,138,1)!important;
+  border-radius:4px;
+  color:rgba(207,213,232,1);
+}
+/* select样式 */
+  .ivu-select-single .ivu-select-prefix {
+    padding-left: 4px;
+    width: 80px;
+    border: 1px solid green;
+    color: #FFF;
+    font-size: 12px;
+    height: 30px;
+    line-height: 30px;
+    background: rgba(58,71,103,1);
+}
+/* form样式 */
+form.ivu-form-inline div.ivu-form-item{
+      vertical-align:center;
+      margin-bottom:''!important;
+      height: 40px;
+      line-height: 40px;
+}
+.ivu-form-item{
+  margin-bottom:''!important;
+}
+form.ivu-form .ivu-form-label-right .ivu-form-inline{
+  height: 40xp;
 }

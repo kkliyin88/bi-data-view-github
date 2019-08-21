@@ -1,40 +1,49 @@
 <template>
   <div >
      <Modal @on-visible-change='cancel' :value='value' :width='600' :title='editMsg.title' :loading='loading'>
-       <Form :model="editData" :label-width="80">
+       <Form :model="editData" :label-width="0">
          <Row>
-             <Col span="12">
-               <FormItem label="度量名称">
-                  <Input v-model="editData.name" ></Input>
+             <Col span="11">
+               <FormItem label="">
+                  <Input v-model="editData.name" >
+                     <span slot="prepend">度量名称</span>
+                  </Input>
               </FormItem>
              </Col>
-             <Col span="12">
-               <FormItem label="度量编码">
-                  <Input v-model="editData.nameEn"  :disabled="editMsg.type=='edit'"></Input>
+             <Col span="11" push=1>
+               <FormItem label="">
+                  <Input v-model="editData.nameEn"  :disabled="editMsg.type=='edit'">
+                     <span slot="prepend">度量编码</span>
+                  </Input>
               </FormItem>
              </Col>
 
          </Row>
           <Row>
-            <Col span="12">
-              <FormItem label="计算类型">
-              <Select v-model="editData.calculationType" style="width: 204px" filterable>
+            <Col span="11">
+              <FormItem label="">
+              <Select v-model="editData.calculationType" prefix="liyin" style="width:100%" filterable clearble>
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
               </FormItem>
             </Col>
+             <Col span="11" push=1>
+               <FormItem label="">
 
-             <Col span="12">
-               <FormItem label="版本号">
-                  <Input v-model="editData.versions" ></Input>
+                  <Input v-model="editData.versions" >
+                    <span slot="prepend">版本号</span>
+                  </Input>
               </FormItem>
              </Col>
-             
+
          </Row>
          <Row>
-            <Col span="12">
-               <FormItem label="备注">
-                  <Input v-model="editData.remark" ></Input>
+            <Col span="11" >
+               <FormItem label="">
+
+                  <Input v-model="editData.remark" >
+                     <span slot="prepend">备注</span>
+                  </Input>
               </FormItem>
             </Col>
          </Row>
@@ -44,12 +53,13 @@
         <Button type="primary" @click='sumit' :loading='loading'>提交</Button>
       </div>
     </Modal>
-    
+
   </div>
 
 </template>
 <script>
   import { post } from '@/axios/fetch';
+  // import Select from '@/piugin/iview/src/components/select/index.js'
   export default {
     props:['editMsg','editData','value'],
     data() {
@@ -70,8 +80,14 @@
       }
     },
     mounted(){
+      this.selectAddPretend();
     },
     methods: {
+      selectAddPretend(){
+        let ele = document.getElementsByClassName('ivu-select-prefix')[0];
+        ele.innerHTML='计算类型'
+        console.log('ele',ele)
+      },
       sumit(){
         let url = this.editMsg.type=='edit'?'/measure/info/updateByPrimaryKey':'/measure/info/insert';
         this.loading = true;
@@ -105,4 +121,5 @@
   };
 </script>
 <style scoped lang="less">
+
 </style>

@@ -5,10 +5,10 @@
       <Button  size='small' icon="plus" @click="del" type="warning">删除</Button>
     </div>
     <div class='table_box'>
-      <Table border ref="selection" :columns="columns"  :loading='loading' @on-selection-change="selectionData" :data="tableData" :height='pageHeight -210'> </Table>
+      <Table border ref="selection"  size='small' :columns="columns"  :loading='loading' @on-selection-change="selectionData" :data="tableData" :height='pageHeight -210'> </Table>
     </div>
     <div class="pagesize_box">
-       <Page :total='pageQuery.total' @on-change='changePageNum' @on-page-size-change='changePageSize' :page-size-opts='[10,20,30]' show-elevator show-sizer show-total />
+       <Page :total='pageQuery.total'  size='small' @on-change='changePageNum' @on-page-size-change='changePageSize' :page-size-opts='[10,20,30]' show-elevator show-sizer show-total />
     </div>
     <div class='edit' v-if='editFlag'>
       <Edit :editData='editData':cityList='cityList' @getPageData='getPageData'  v-model='editFlag' :editMsg='editMsg'> </Edit>

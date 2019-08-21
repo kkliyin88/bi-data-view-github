@@ -123,7 +123,7 @@
       }
     },
      mounted(){
-      this.getPageData();
+      // this.getPageData();
       window.addEventListener('resize', this.getHeight);
       this.getHeight();
     },
@@ -146,8 +146,8 @@
       },
       getPageData(){
         let url='/dimension/info/queryPageInfo';
+          this.loading = true;
         post(url,this.pageQuery.query).then(res=>{
-            console.log('res',res)
           this.loading = false;
           if(res.code == 200){
             this.tableData = res.data.list;

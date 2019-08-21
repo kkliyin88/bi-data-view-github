@@ -1,16 +1,18 @@
 <template>
   <div ref="wrap" class='wrapBox'>
      <section class='query'>
-          <span>开始时间:<DatePicker size='small' type="month" placeholder="Select month" style="width: 150px;margin-left: 10px;"></DatePicker></span>
-           <span style="margin-left: 15px;">结束时间:<DatePicker size='small' type="month" placeholder="Select month" style="width: 150px;margin-left: 10px"></DatePicker></span>
+          <span class='formitem'>开始时间:</span>
+          <DatePicker size='small' type="month" placeholder="Select month" style="width: 150px;margin-left: 10px;"></DatePicker>
+          <span class='formitem' style="margin-left: 15px;">结束时间:</span>
+          <DatePicker size='small' type="month" placeholder="Select month" style="width: 150px;margin-left: 10px"></DatePicker>
      </section>
     <div>
       <Row>
         <Col :span="12" v-if='level!=4'>
-          <div ref="myChart1" class='chart1' :style="{height: pageHeight-120+'px'}"></div>
+          <div ref="myChart1" class='chart1' :style="{height: pageHeight-140+'px'}"></div>
         </Col>
         <Col :span="level==4?24:12">
-            <Table  :data='tableData' :columns="columns" size='small' :max-height=" pageHeight-120"></Table>
+            <Table  :data='tableData' :columns="columns" size='small' ></Table>
         </Col>
       </Row>
     </div>
@@ -34,7 +36,7 @@ export default {
       ],
       level:1, //1,2,3,4分别表示办事处/经销商/零售商/门店/
       columns:[
-          {
+          {   title: '序号',
               type: 'index',
               align: 'center'
           },
@@ -50,29 +52,34 @@ export default {
           },
            {
             title: '占比',
-            key: 'posSaleRatio',
+            key: 'posSaleRatio2',
             align:'center',
             sortable: true
           },
       ],
       chartOption:{
+        backgroundColor: '#09153D',
         title: {
           text: "",
-          x: "center"
-        }, 
+          x: 'left',
+          textStyle:{
+            color:'#FFF',
+            fontSize:'14px',
+          }
+        },
         toolbox: {
             right:20,
             feature: {
                 myTool: {
                     show: true,
                     title: '返回',
-                    icon: 'image://http://echarts.baidu.com/images/favicon.png',
+                    icon: 'image://../../../static/image/chartGoBack.png',
                     onclick:()=>{
                         if(this.level-1 == 1 ){
-                           this.relativeArr[this.level-1].param = {}; 
+                           this.relativeArr[this.level-1].param = {};
                         }
                         if(this.level==1){
-                            return 
+                            return
                         }
                       this.getPageData(this.relativeArr[this.level-1].url,this.relativeArr[this.level-1].param);
                     }
@@ -87,9 +94,13 @@ export default {
           orient: "horizontal",
           x: "center",
           y: "bottom",
-          data: []  
+          data: [],
+          textStyle:{
+            color:'#fff'
+          }
         },
         calculable: true,
+        color:['red', 'green','yellow','blue','gray','black','grey','#CCC','blueviolet','#EEE','#AAA',],
         series: [
           {
             type: "pie",
@@ -102,11 +113,12 @@ export default {
                 shadowColor: "rgba(0, 0, 0, 0.5)"
               },
               normal: {
+
                 label: {
                   show: false,
                   formatter: "{b} : ({d}%)"
                 },
-                labelLine: { show: false }
+
               }
             }
           }
@@ -126,7 +138,7 @@ export default {
     getHeight() {
       //设置页面高度
       this.pageHeight = window.innerHeight;
-      this.$refs.wrap.style.height = this.pageHeight - 100 + "px";
+      this.$refs.wrap.style.height = this.pageHeight - 75 + "px";
     },
     getPageData(url,param,){
         post(url,param).then(res=>{
@@ -135,12 +147,14 @@ export default {
                     title:'提示',
                     content:res.message
                   })
-                return 
+                return
             }
            this.tableData = res.data;
+           console.log('tableData',this.tableData)
            res.data.map((item)=>{
                item.value = item.posSaleRatio;
                this.chartOption.legend.data.push(item.name);
+               item.posSaleRatio2 =  this.toPercent(item.posSaleRatio);
            });
            this.chartOption.series[0].data = res.data;
            this.level = res.data[0].level;
@@ -154,6 +168,14 @@ export default {
           })
         })
     },
+    toPercent(data){
+    	if(data==''||data==null||data==undefined){
+    		return data
+    	};
+    	var str=Number(data*100).toFixed(2);
+    	str+="%";
+    	return str;
+    },
     drawChart1() {
       // 基于准备好的dom，初始化echarts实例
       this.myChart = this.$echarts.init(this.$refs.myChart1);
@@ -161,14 +183,14 @@ export default {
       this.myChart.setOption(this.chartOption);
       this.myChart.on('click',(params)=>{
          if(params.data.level ==4){
-             return 
+             return
          };
          if(params.data.level==1){
               this.relativeArr[params.data.level+1].param.orgNo = params.data.orgNo;
          }else if(params.data.level==2){
              this.relativeArr[params.data.level+1].param.dealerNo = params.data.dealerNo;
          }else if(params.data.level==3){
-           this.relativeArr[params.data.level+1].param.marketNo = params.data.marketNo; 
+           this.relativeArr[params.data.level+1].param.marketNo = params.data.marketNo;
          }
          this.getPageData(this.relativeArr[params.data.level+1].url,this.relativeArr[params.data.level+1].param);
      })
@@ -183,11 +205,12 @@ export default {
            width: 100%;
        }
     }
+    .formitem{
+      color: white;
+    }
     .query{
         height: 50px;
         line-height: 50px;
     }
-    .query:hover{
-        background: lightgray;
-    }
+
 </style>

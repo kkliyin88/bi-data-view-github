@@ -27,7 +27,7 @@
                 v-model="ruleForm.codeNumber"
                 @keyup.enter.native="submitForm('ruleForm')"></el-input>
               <div class="captcha-img">
-                <img @click="getCaptchaCode" src="../../images/captcha.png" alt="" class="captcha">
+                <img @click="getCaptchaCode" src="../../../static/image/captcha.png" alt="" class="captcha">
               </div>
             </div>
           </el-form-item>
@@ -86,7 +86,7 @@
         //登陆
          submitForm(formName) {
           const that = this;
-            this.$router.push('/dataManage/meter');
+          this.$router.push('/dataManage/meter');
           this.$refs[formName].validate((valid) => {
             if (valid) {
               lookOption(10000,"aaa").then(res => {
@@ -110,7 +110,7 @@
     position: relative;
     width: 100%;
     height: 100%;
-    background: url('../../images/login-bg.png');
+    background: url('../../../static/image/login-bg.png');
     background-size: 100% 100%;
   }
   .loginForm{

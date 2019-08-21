@@ -14,8 +14,19 @@ var lastYear = lastMonthDate.getYear();
 var lastMonth = lastMonthDate.getMonth();
 //格式化日期：yyyy-MM-dd
 
-// formatDate getLastDate getMonthDays getWeekStartDate getWeekEndDate 
+// formatDate getLastDate getMonthDays getWeekStartDate getWeekEndDate
 // getLastWeekStartDate getLastWeekEndDate getMonthEndDate getMonthEndDate getLastMonthStartDate getLastMonthEndDate
+//获得本周的开始日期
+export function getWeekStartDate() {
+    let  weekStartDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek);
+    return formatDate(weekStartDate);
+}
+//获得本周的结束日期
+export function getWeekEndDate() {
+    let weekEndDate = new Date(nowYear, nowMonth, nowDay + (6 - nowDayOfWeek));
+    return formatDate(weekEndDate);
+}
+
 export function formatDate(d) {
     let date=new Date(d)
     var myyear = date.getFullYear();
@@ -36,14 +47,14 @@ export function getSomeDay(date,num){
   let n = num*86400000;
   let newdate = d + n;
   return formatDate(new Date(newdate))
-} 
+}
 
 export function getNearStartDay(num){
   let today = new Date().getTime();
   let s = num*3600*24*1000;
   let nearDay = today+s;
   return formatDate(new Date(nearDay))
-} 
+}
 //获取昨天日期
 export function getLastday(){
   let lastDay = new Date(nowYear,nowMonth,nowDay-1)
@@ -80,16 +91,7 @@ export function getQuarterStartMonth() {
     return quarterStartMonth;
 }
 
-//获得本周的开始日期
-export function getWeekStartDate() {
-    let  weekStartDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek);
-    return formatDate(weekStartDate);
-}
-//获得本周的结束日期
-export function getWeekEndDate() {
-    let weekEndDate = new Date(nowYear, nowMonth, nowDay + (6 - nowDayOfWeek));
-    return formatDate(weekEndDate);
-}
+
 //获得上周的开始日期
 export function getLastWeekStartDate() {
     let weekStartDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek - 7);
@@ -131,6 +133,4 @@ export function getQuarterEndDate() {
     let quarterStartDate = new Date(nowYear, quarterEndMonth,
             getMonthDays(quarterEndMonth));
     return formatDate(quarterStartDate);
-} 
-
-
+}

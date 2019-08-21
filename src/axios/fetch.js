@@ -30,14 +30,14 @@ export function post(path,data,options={}){
 }
 
 export function get(path,data,options={}){
-  
+
 let pathIsJson = /\.json$/.test(path);
   if(path.indexOf('http://') == -1 && !pathIsJson){
     path = baseUrl + path;
   }
   return new Promise(function(resolve,reject){
     axios.get(path,data,options).then((res)=>{
-      resolve(res);
+      resolve(res.data);
     }).catch((err)=>{
       reject(err);
       console.log(err,err);

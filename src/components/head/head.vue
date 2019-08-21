@@ -17,13 +17,6 @@
             <DropdownItem>退出</DropdownItem>
         </DropdownMenu>
      </Dropdown>
-
-      <!--<template>
-        <div class="full" @click="changeLangEvent()">
-          <span class="lan">{{language}}</span>
-        </div>
-      </template>-->
-
     </div>
   </header>
 </template>
@@ -47,36 +40,14 @@
       },
       methods:{
         ...mapActions(["getCollapse"]),//简写
-//       changeLangEvent() {
-//            if (this.language == "EN") {
-//              localStorage.setItem("locale", "zh");
-//              this.$i18n.locale = localStorage.getItem("locale");
-//              this.$message({
-//                message: "切换为中文！",
-//                type: "success"
-//              });
-//              localStorage.setItem("lang", "ZH");
-//              this.language = "ZH";
-//              location.reload();
-//            } else if (this.language == "ZH") {
-//              localStorage.setItem("locale", "en");
-//              this.$i18n.locale = localStorage.getItem("locale");
-//              this.$message({
-//                message: "Switch to English!",
-//                type: "success"
-//              });
-//              localStorage.setItem("lang", "EN");
-//              this.language = "EN";
-//              location.reload();
-//            }
-//        }
+//       
       }
     }
 </script>
 <style scoped lang='less'>
-  /*.head{
-    background: #FFFFFF;
-  }*/
+  .head{
+    background: rgba(45,55,90,1);
+  }
   .lan {
     display: inline-block;
     cursor: pointer;

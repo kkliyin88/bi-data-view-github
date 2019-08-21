@@ -18,6 +18,9 @@ const EventType = resolve => require(['@/page/dataManage/eventType'], resolve)
 //菜单二
 const sellPercentageAnalysis = resolve => require(['@/page/KAChart/sellPercentageAnalysis'], resolve)
 const samePeriodAnalysis = resolve => require(['@/page/KAChart/samePeriodAnalysis'], resolve)
+const personTargetPerformance = resolve => require(['@/page/KAChart/personTargetPerformance'], resolve);
+const saleTargetPerformance = resolve => require(['@/page/KAChart/saleTargetPerformance'], resolve);
+const costAnalysisReport = resolve => require(['@/page/KAChart/costAnalysisReport'], resolve)
 
 Vue.use(Router);
 export default new Router({
@@ -84,11 +87,6 @@ export default new Router({
           component: EventType,
           meta: { title: '事件类型' }
         },
-        // {
-        //   path: '/dataManage/chinaMap',
-        //   component: chinaMap,
-        //   meta: { title: '地图' }
-        // },
          {
           path: '/KAChart/sellPercentageAnalysis',
           component: sellPercentageAnalysis,
@@ -99,7 +97,21 @@ export default new Router({
           component: samePeriodAnalysis,
           meta: { title: '销售同比分析' }
         },
-
+        {
+          path: '/KAChart/personTargetPerformance',
+          component: personTargetPerformance,
+          meta: { title: '销售同比分析' }
+        },
+        {
+         path: '/KAChart/saleTargetPerformance',
+         component: saleTargetPerformance,
+         meta: { title: 'KA销售目标达成报表' }
+       },
+       {
+         path: '/KAChart/costAnalysisReport',
+         component: saleTargetPerformance,
+         meta: { title: '费用分析报表' }
+       },
       ]
     },
     {
