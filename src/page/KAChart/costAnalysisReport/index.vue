@@ -54,9 +54,7 @@ export default {
 };
 </script>
 <style scoped lang="less">
-    .wrapBox{
-        overflow-y: auto;
-    }
+
     .formitem{
       color: white;
     }

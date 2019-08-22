@@ -1,7 +1,7 @@
 <template>
     <div id="Home">
       <head-top></head-top>
-      <div class="wrapper">
+      <div class="wrapper" ref="wrapper">
            <sidebar ></sidebar>
           <div class="main" :style="{left:slideflag?'160px':0}">
             <div class="container">
@@ -27,7 +27,8 @@
         }
       },
       mounted(){
-
+        window.addEventListener("resize", this.getHeight);
+        this.getHeight();
       },
       computed:{
         ...mapState({
@@ -35,6 +36,11 @@
         }),
       },
       methods:{
+        getHeight() {
+          //设置页面高度
+          this.pageHeight = window.innerHeight;
+          this.$refs.wrapper.style.height = this.pageHeight - 74 + "px";
+        }
       }
     }
 </script>

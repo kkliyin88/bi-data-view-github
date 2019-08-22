@@ -62,7 +62,6 @@ export default {
 
   },
   mounted() {
-     this.getHeight();
      // this.getPageData();
      window.addEventListener("resize", this.getHeight);
      this.getOrgNoList();
@@ -72,9 +71,7 @@ export default {
   },
   methods: {
     getHeight() {
-      //设置页面高度
-      this.pageHeight = window.innerHeight;
-      this.$refs.wrap.style.height = this.pageHeight - 75 + "px";
+     
     },
     getOrgNoList(){  //获取办事处列表
       let url ='/kasm/org/findOrgnizationList';
@@ -211,10 +208,7 @@ export default {
 };
 </script>
 <style scoped lang="less">
-    .wrapBox{
-        overflow-y: auto;
-        background: #09153D;
-    }
+
     .formitem{
       color: white;
     }

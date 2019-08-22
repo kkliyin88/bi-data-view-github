@@ -101,15 +101,10 @@ export default {
     })
   },
   mounted() {
-    window.addEventListener("resize", this.getHeight);
-    this.getHeight();
+
   },
   methods: {
-    getHeight() {
-      //设置页面高度
-      this.pageHeight = window.innerHeight;
-      this.$refs.menu_left.style.height = this.pageHeight - 60 + "px";
-    }
+    
   }
 };
 </script>
