@@ -1,13 +1,15 @@
 <template>
   <div id="sidebar-left" ref="menu_left">
-    <Menu width="160px" :open-names="[1]" text-color="#A4A6BE">
+    <Menu width="160px" accordion text-color="#A4A6BE" ><!-- :open-names="[1]" -->
       <Submenu :name="index+1" v-for="(item,index) in menuData" :key="index">
         <template slot="title">
            <span>{{item.title}}</span>
         </template>
         <MenuItem  v-for="(item2,i) in item.sub"   :to="item2.index"  :key="i"  :name="item2.title">
-         <img class='submMenuIcon' :src='item2.pic' />
-         <span>{{item2.title}}</span>
+         <p @click='selectMenu(item2,item.sub)'>
+           <img class='submMenuIcon' :src='item2.pic' />
+           <span>{{item2.title}}</span>
+         </p>
         </MenuItem>
       </Submenu>
     </Menu>
@@ -23,40 +25,53 @@ export default {
       pageHeight: window.innerHeight,
       menuData: [
         {
+          title: "仪表盘",
+          sub:[
+             {
+              pic1:'../../static/image/yibiao_menu/meter1.png',
+              pic2:'../../static/image/yibiao_menu/meter2.png',
+              index: "/dataManage/meter",
+              title: "仪表"
+            },
+          ]
+        },
+        {
           title: "数据维护",
           sub: [
             {
-              pic:'../../../static/image/weidu@2x.png',
+              pic1:'../../../static/image/dataManage_menu/dimension1.png',
+              pic2:'../../../static/image/dataManage_menu/dimension2.png',
               index: "/dataManage/dimension",
               title: "维度"
             },
             {
-              pic:'../../../static/image/duliang@2x.png',
+              pic1:'../../../static/image/dataManage_menu/measureinfo1.png',
+              pic2:'../../../static/image/dataManage_menu/measureinfo2.png',
               index: "/dataManage/measureinfo",
               title: "度量"
             },
             {
-              pic:'../../../static/image/shijian@2x.png',
+              pic1:'../../../static/image/dataManage_menu/eventinfo1.png',
+              pic2:'../../../static/image/dataManage_menu/eventinfo2.png',
               index: "/dataManage/eventinfo",
               title: "事件"
             },
-            {
-              pic:'../../static/image/dashboard@2x.png',
-              index: "/dataManage/meter",
-              title: "仪表"
-            },
-            {  pic:'../../static/image/dashboard@2x.png',
+
+            { pic1:'../../../static/image/dataManage_menu/template1.png',
+              pic2:'../../../static/image/dataManage_menu/template2.png',
               index: "/dataManage/template",
               title: "模板"
             },
             {
-              pic:'../../static/image/yunsuankongjian@2x.png',
+              pic1:'../../../static/image/dataManage_menu/operation1.png',
+              pic2:'../../../static/image/dataManage_menu/operation2.png',
               index: "/dataManage/operation",
               title: "运算"
             },
 
             {
-               pic:'../../static/image/leixing@2x.png',
+               pic1:'../../../static/image/dataManage_menu/eventType1.png',
+               pic2:'../../../static/image/dataManage_menu/eventType2.png',
               index: "/dataManage/eventType",
               title: "事件类型"
             }
@@ -65,30 +80,34 @@ export default {
         {
           title: "KA图表",
           sub: [
-              { pic:'',
+              { pic1:'../../static/image/KA_menu/sellPercentageAnalysis1.png',
+                pic2:'../../static/image/KA_menu/sellPercentageAnalysis2.png',
                 index: "/KAChart/sellPercentageAnalysis",
                 title: "销售占比"
               },
-            { pic:'',
+            { pic1:'../../static/image/KA_menu/samePeriodAnalysis1.png',
+              pic2:'../../static/image/KA_menu/samePeriodAnalysis2.png',
               index:'/KAChart/samePeriodAnalysis',
               title:'销售同比'
             },
             {
-              pic:'',
+              pic1:'../../static/image/KA_menu/personTargetPerformance1.png',
+              pic2:'../../static/image/KA_menu/personTargetPerformance2.png',
               index:'/KAChart/personTargetPerformance',
               title:'个人目标达成'
             },
              {
-              pic:'',
+              pic1:'../../static/image/KA_menu/personTargetPerformance1.png',
+              pic2:'../../static/image/KA_menu/personTargetPerformance2.png',
               index:'/KAChart/saleTargetPerformance',
               title:'销售目标达成'
             },
             {
-              pic:'',
+              pic1:'../../static/image/KA_menu/costAnalysisReport1.png',
+              pic2:'../../static/image/KA_menu/costAnalysisReport2.png',
               index:'/KAChart/costAnalysisReport',
               title:'费用分析报表'
             },
-
           ]
         },
 
@@ -101,10 +120,30 @@ export default {
     })
   },
   mounted() {
-
+    window.addEventListener("resize", this.getHeight);
+    this.getHeight();
+    this.img();
   },
   methods: {
-    
+    getHeight() {
+      //设置页面高度
+      this.pageHeight = window.innerHeight;
+      this.$refs.menu_left.style.height = this.pageHeight - 60 + "px";
+    },
+    selectMenu(item,arr){
+      arr.map((item2)=>{
+         this.$set(item2,'pic',JSON.parse(JSON.stringify(item2.pic1)))
+      });
+
+      this.$set(item,'pic',JSON.parse(JSON.stringify(item.pic2)));
+    },
+    img(){
+      this.menuData.map((item)=>{
+        item.sub.map((item2)=>{
+          this.$set(item2,'pic',JSON.parse(JSON.stringify(item2.pic1)))
+        })
+      })
+    },
   }
 };
 </script>

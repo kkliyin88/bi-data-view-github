@@ -1,3 +1,4 @@
+
 body{
   font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 }
@@ -11,21 +12,21 @@ body{
     width: 8px;
     height: 8px;
     /* 背景色 */
-    background-color: rgba(78,133,252,1);  
+    background-color: rgba(78,133,252,1);
 }
 /*定义滚动条轨道 内阴影+圆角*/
 ::-webkit-scrollbar-track
 {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     border-radius: 20px;
-    background-color: rgba(78,133,252,1);  
+    background-color: rgba(78,133,252,1);
 }
 /*定义滑块 内阴影+圆角*/
 ::-webkit-scrollbar-thumb
 {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-    background-color: rgba(0,0,0,0.3); 
+    background-color: rgba(0,0,0,0.3);
 }
 /*滑块效果*/
 ::-webkit-scrollbar-thumb:hover
@@ -126,11 +127,12 @@ li{
   height: 100%;
   width: 100%;
   background-color: #060C2D;
+  overflow: hidden;
 }
 .wrapper{
   /* height: 100%; */
   width: 100%;
-  display: flex;
+  display:flex;
 }
 /*main内容*/
 .main{
@@ -140,10 +142,8 @@ li{
   -webkit-transition: left .3s ease-in-out;
   -o-transition: left .3s ease-in-out;
   transition: left .3s ease-in-out;
-  margin-left: 14px;
+  margin-left: 10px;
 }
-
-
 .pagination{
   margin-top: 10px;
 }
@@ -157,6 +157,8 @@ li{
 .container{
   background:rgba(37,44,72,1);
   height: 100%;
+  overflow: hidden;
+  position: relative;
 }
 .wrapBox{
   overflow-y: auto;
@@ -180,20 +182,7 @@ li{
 
 
 /*****HEADER 头部*****/
-header{
-  display: flex;
-  position: relative;
-  width: 100%;
-  height: 60px;
-  line-height:60px;
-  font-size: 22px;
-  color: #fff;
-  background-color: #24292e;
-  -webkit-transition: all .3s ;
-  -moz-transition: all .3s ;
-  transition:all .3s ;
 
-}
 .collapse-btn{
   float: left;
   height: 100%;
@@ -413,67 +402,20 @@ table .el-button+.el-button{
 
 /* 登录页样式 */
 
-.el-button--primary{
-  background-color: #4E85FC;
-  border-color: #409EFF;
-  color: #f6f6f6;
-  box-shadow:0px 1px 3px rgba(18,4,45,0.22);
-}
-
 .el-input__inner{
   background-color: #09153D;
   border: 1px solid #1489CC;
   color: #4E85FC;
 }
 
-/* 左侧栏的样式 */
 
-.ivu-menu-light{
-  background-color:rgba(45,55,90,1)!important;
-}
-.ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu){
-  background-color: transparent;
 
-}
-#sidebar-left .ivu-menu li.ivu-menu-item-active ul.ivu-menu a.ivu-menu-item:hover{
-  background-color:rgba(45,30,30,1)!important;
-}
-#sidebar-left .ivu-menu li.ivu-menu-item-active ul.ivu-menu a.ivu-menu-item-active span{
-  color:#3B9B9E;
-}
-a.ivu-menu-item{
-  color: #A4A6BE!important;
-}
-.ivu-menu{
-  color: #A4A6BE;
-  padding: 15px 0px 0 0;
-  box-sizing: border-box;
-  cursor: pointer;
-}
-.ivu-menu-opened .ivu-menu-submenu-title {
-  background-color: rgba(37,44,72,1);
-  color: #FFFFFF;
-  font-size: 18px;
-  border-radius: 0 30px 30px 0;
-  border: 1px solid rgba(37,44,72,1);
-  border-left: none;
-}
 
-.ivu-menu a{
-  padding-left: 20px!important;
-}
-
-/* 头部样式 */
-header{
-  margin-bottom: 14px;
-  background-color: #141859;
-}
 /* 搜索栏样式 */
  .search_box{
   height: 35px;
   line-height: 35px;
   padding-left: 15px;
-  background:rgba(9,21,61,1);
  }
 .table_box{
   background:rgba(9,21,61,1);
@@ -482,144 +424,15 @@ header{
   background:rgba(9,21,61,1);
 }
 
-/* 修改iview table 样式 */
-.ivu-table-wrapper{
-  border: none;
-}
-.ivu-table-body{
-   background:rgba(37,44,72,1);
-}
- .ivu-table-wrapper .ivu-table-small .ivu-table-tip table tbody tr td{  /* 暂无数据 */
-   background:rgba(37,44,72,1)!important;
-}
- .ivu-table-border td, .ivu-table-border th {
-   border: none;
- }
-.ivu-table-wrapper .ivu-table div.ivu-table-header table thead tr th.ivu-table-column-center{
-  background:rgba(37,44,72,1);
-  color:rgba(78,133,252,1);
-  border: none;
-}
-
-/* table tbody.ivu-table-tbody tr.ivu-table-row:nth-child(2n) td.ivu-table-column-center{
-    background:rgba(37,44,72,1);
-   border: none;
-} */
-table tbody.ivu-table-tbody tr.ivu-table-row td.ivu-table-column-center{
-  background:rgba(9,21,61,1);
-   border: none;
-}
-.ivu-table-body .ivu-table-cell span{
-  color:#FFF;
-}
-
-.ivu-table .same-period-analysis-cell span{ /*设置KAChart->samePeriodAnalysis合并单元格*/
-     color:rgba(9,21,61,1);
-}
-.ivu-table .same-period-analysis-cell1{
-  cursor:pointer;
-}
-.ivu-table .ivu-table-body .ivu-table-tbody tr.same-period-analysis-row td{
-  border-bottom:2px solid gray!important;
-}
-
-
-.ivu-table:before {
-  background:#060C2D;
-  width: 0;
-  height: 0;
-}
-.ivu-table:after{
-  background:#060C2D;
-  width: 0;
-  height: 0;
-}
-
-
-/* table loading样式 */
-.ivu-table-wrapper>.ivu-spin-fix{
-  background: null;
-}
-.ivu-spin-fix{
-  background-color: #060C2D;
-  opacity: 0.3;
-}
-.ivu-spin-dot{
-  background-color: yellow;
-}
 
 
 /* 页码样式*/
 .pagesize_box{
   position: absolute;
-  bottom: 0;
+  display: inline-block;
+  bottom: 10px;
   background:#060C2D ;
-  width: 100%;
+  width:100%;
   height: 40px;
   line-height: 40px;
-}
-
-/* input样式 */
-.ivu-input-wrapper .ivu-input-group-prepend{
-  background:rgba(58,71,103,1);
-  color: #FFF;
-}
-
-/* 页码 */
- .ivu-page .ivu-page-total{
-   background:rgba(16,21,44,1);
-   border:1px solid rgba(83,95,138,1);
-   border-radius:4px;
-   height:32px;
-   color:rgba(207,213,232,1);
-   padding:0 3px;
- }
-ul.ivu-page  li{
-  background:rgba(16,21,44,1);
-  border:1px solid rgba(83,95,138,1)!important;
-  border-radius:4px;
-  height:32px;
-  line-height: 32px;
-  color:rgba(207,213,232,1);
-  padding:0 3px;
-}
-.ivu-page-options .ivu-page-options-sizer .ivu-select .ivu-select-selection{
-  background:rgba(16,21,44,1);
-  border:1px solid rgba(83,95,138,1)!important;
-  border-radius:4px;
-  color:rgba(207,213,232,1);
-  padding:0 3px;
-}
-.ivu-page-options .ivu-page-options-elevator{
-  color:rgba(207,213,232,1);
-}
-.ivu-page-options .ivu-page-options-elevator input{
-  background:rgba(16,21,44,1);
-  border:1px solid rgba(83,95,138,1)!important;
-  border-radius:4px;
-  color:rgba(207,213,232,1);
-}
-/* select样式 */
-  .ivu-select-single .ivu-select-prefix {
-    padding-left: 4px;
-    width: 80px;
-    border: 1px solid green;
-    color: #FFF;
-    font-size: 12px;
-    height: 30px;
-    line-height: 30px;
-    background: rgba(58,71,103,1);
-}
-/* form样式 */
-form.ivu-form-inline div.ivu-form-item{
-      vertical-align:center;
-      margin-bottom:''!important;
-      height: 40px;
-      line-height: 40px;
-}
-.ivu-form-item{
-  margin-bottom:''!important;
-}
-form.ivu-form .ivu-form-label-right .ivu-form-inline{
-  height: 40xp;
 }

@@ -1,224 +1,160 @@
 <template>
-  <div ref="wrap" class='wrapBox'>
-   <section class='query'>
-     <Form>
-     <!-- <FormItem label='办事处:' class='formItem' >
-         <Select v-model='query.orgNo' @on-change='getDealerNoList' size='small'>
-            <Option v-for='item in orgNoList' :value='item.id' :label='item.orgName'></Option>
-          </Select>
-      </FormItem>
-        <FormItem label='经销商:' class='formItem'>
-         <Select v-model='query.dealerNo' @on-change='getStoreNoList' size='small'>
-            <Option v-for='item in dealerNoList' :value='item.id' :label='item.dealerName'></Option>
-          </Select>
-       </FormItem>
-      <FormItem label='零售商:' class='formItem'>
-         <Select v-model='query.storeNo' size='small'>
-            <Option v-for='item in storeNoList' :value='item.id' :label='item.marketName' ></Option>
-          </Select>
-       </FormItem> -->
-
-      <!-- <FormItem label='开始时间:' class='formItem'>
-          <DatePicker size='small' type='month' v-model='query.beginYearMonth' :options='{disabledDate:disableStartDate}' placeholder="开始月份"></DatePicker>
-       </FormItem>
-      <FormItem label='结束时间:' class='formItem'>
-          <DatePicker size='small' type='month' v-model='query.endYearMonth' :options='{disabledDate:disableEndDate}' placeholder="截止月份"  ></DatePicker>
-      </FormItem > -->
-      <!-- <FormItem class='formItem'> -->
-           <Button size='small' :loading='loading' @click='getPageData'>查询</Button>
-     <!-- </FormItem>
- -->
-     </Form>
-   </section>
-   <section ref='table'>
-     <Table  :data='pageData' :loading='loading' :columns='columns' size='small' :height='500'></Table>
-   </section>
+  <div ref="wrap" class='wrapBox' style='padding: 8px;'>
+    <section  ref='querybox'>
+       <Query ref='query' :query='query' >
+         <span slot='after'>
+           <FormItem :label-width='0' >
+              <Button size='small' @click='search' :loading='loading'>查询</Button>
+           </FormItem>
+         </span>
+       </Query>
+    </section>
+  <section>
+     <Table :data='pageData' :show-header='pageData.length>0'  :loading='loading' :columns='columns'  :row-class-name="rowClassName" size='small' :maxHeight='pageHeight-queryBoxHeight-160'></Table>
+  </section>
   </div>
 </template>
 <script>
 import { post,get } from "@/axios/fetch";
+import Query from '../components/query/index.vue';
 export default {
-  components: {},
+  components: {Query},
   data() {
     return {
-      pageHeight:null,
       loading:false,
-      pageData:[],
-      orgNoList:[],
-      dealerNoList:[],
-      storeNoList:[],
-      columns:[],
       loading:false,
-        query:{
-          // beginYearMonth: '',
-          // endYearMonth: '',
-          year:2018,
-          orgNo: '',
-          // dealerNo: '',
-          // marketNo: '',
-          // storeNo: '',
-        },
+       query:{},
+       pageHeight:200,
+       queryBoxHeight:null,
+       pageData:[],
+       orgList:[],
+       dealerList:[],
+       marketList:[],
+       storeList:[],
+       columns:[
+         { title:'名称', key:'name', align: 'center',minWidth:100, }, //fixed:'left'
+         { title:'项目',  key:'type', align: 'center', minWidth:60,   },//fixed:'left'
+       ],
       }
-
   },
   mounted() {
-     // this.getPageData();
+     this.getHeight();
      window.addEventListener("resize", this.getHeight);
-     this.getOrgNoList();
+
   },
   destroyed() {
     window.removeEventListener("resize", this.getHeight);
   },
   methods: {
     getHeight() {
-     
+      //设置页面高度
+      this.pageHeight = window.innerHeight;
+      this.$refs.wrap.style.height = this.pageHeight - 70 + "px";
     },
-    getOrgNoList(){  //获取办事处列表
-      let url ='/kasm/org/findOrgnizationList';
-      get(url).then(res=>{
+    getQuerySectionHeight(){
+      if(this.$refs.querybox&&this.$refs.querybox.style&&this.$refs.querybox.style.height){
+        this.queryBoxHeight =  this.$refs.querybox.style.height;
+      }
+    },
+    search(){
+	  let flag = false;
+	  this.$refs.query.$refs.form.validate((valid)=>{
+	  	flag = !valid;
+	  });
+     if(flag) return false;
+      let url='/kasm/saleReport/findOrgSaleTarget'; //返回办事处
+       this.columns[0].title = '办事处';
+      let params= JSON.parse(JSON.stringify(this.query));
+      if(params.orgNo&&params.dealerNo&&params.marketNo){ //返回门店
+         url='/kasm/saleReport/findStoreSaleTarget';
+         this.columns[0].title = '门店';
+      }else if(params.orgNo&&params.dealerNo&&!params.marketNo&&!params.storeNo){ //返回的是零售商
+       url = '/kasm/saleReport/findMarketSaleTarget';
+        this.columns[0].title = '零售商';
+      }else if(params.orgNo&&!params.dealerNo&&!params.marketNo&&!params.storeNo){ //返回的是经销商
+        url= '/kasm/saleReport/findDealerSaleTarget';
+         this.columns[0].title = '经销商';
+      }
+     if(params.beginYearMonth){
+       let begin = new Date(params.beginYearMonth)
+       params.beginYearMonth = begin.getFullYear() + '-' + (begin.getMonth()+1).toString().padStart(2,'0');
+     }
+     if(params.endYearMonth){
+        let end = new Date(params.endYearMonth)
+        params.endYearMonth = end.getFullYear() + '-' + ( end.getMonth()+1).toString().padStart(2,'0');
+     }
+     this.loading = true;
+      post(url,params).then(res=>{
           if(res.code!==200){
               this.$Modal.warning({
                   title:'提示',
                   content:res.message
                 })
+             this.loading = false;
               return
           }
-         this.orgNoList = res.data;
+         this.makeColumns(res.data);
+         this.makePageData(res.data);
+         this.getQuerySectionHeight();
+        this.loading = false;
       }).catch(error=>{
-         console.log('error',error)
+        this.loading = false;
         this.$Modal.warning({
           title:'提示',
           content:'连接服务失败!'
         })
       })
     },
-    getDealerNoList(){  //获取经销商列表
-      let url ='/kasm/org/findDealerList?orgNo='+this.query.orgNo;
-      get(url).then(res=>{
-        console.log('res',res)
-          if(res.code!==200){
-              this.$Modal.warning({
-                  title:'提示',
-                  content:res.message
-                })
-              return
-          }
-         this.dealerNoList = res.data;
-      }).catch(error=>{
-         console.log('error',error)
-        this.$Modal.warning({
-          title:'提示',
-          content:'连接服务失败!'
-        })
+     makePageData(arr){
+      this.pageData = [];
+      arr.map((item)=>{
+          item.data=[{type:'目标'},{name:item.name,type:'达成'},{type:'完成率',cellClassName:'same-period-analysis-cell1'}];
+          item.list.map((item2)=>{
+           item.data[0][item2.yearMonth]=item2.saleTarget==null?0:item2.saleTarget.toFixed(2); //目标
+           item.data[1][item2.yearMonth]=item2.posSale==null?0:item2.posSale.toFixed(2); //达成
+           item.data[2][item2.yearMonth]=item2.ratio==null?0:`${(item2.ratio*100).toFixed(2)}%`; //完成率
+         })
+        this.pageData.push(... item.data)
       })
     },
-    getStoreNoList(){
-      let url ='/kasm/org/findMarketList?dealerNo='+this.query.dealerNo;
-      get(url).then(res=>{
-        console.log('res',res)
-          if(res.code!==200){
-              this.$Modal.warning({
-                  title:'提示',
-                  content:res.message
-                })
-              return
-          }
-         this.storeNoList = res.data;
-      }).catch(error=>{
-         console.log('error',error)
-        this.$Modal.warning({
-          title:'提示',
-          content:'连接服务失败!'
-        })
-      })
+    rowClassName(row, index){
+      let i = index + 1 ;
+      if(i%3!==0){
+        return
+      }
+      return 'same-period-analysis-row';
     },
-    getPageData(){
-       let url = '/kasm/saleReport/findOrgSaleTarget';
-       this.loading = true;
-        post(url,this.query).then(res=>{
-            if(res.code!==200){
-                this.$Modal.warning({
-                    title:'提示',
-                    content:res.message
-                  })
-                return
-            }
-            console.log('res',res.data)
-
-           this.loading = false;
-        }).catch(error=>{
-           console.log('error',error)
-          this.$Modal.warning({
-            title:'提示',
-            content:'连接服务失败!'
-          })
-        })
-    },
-     operatorPageData(data){
-      data.map((item,index)=>{
-          this.pageData.push(item.staffInfoVo)
-          item.staffReportVoList.map((item2)=>{
-              delete item2.roleName;
-              delete item2.staffName;
-              for(let key in item2){
-                  this.pageData[index][item2.yearMonth+key] = item2[key]
-              }
-          })
-      })
-      console.log('pageData',this.pageData)
-    },
-     getcolumns(data){ //拼接colum
-      let maxlength = 0;
-      let Item = {};
-      data.map((item)=>{
-        if(item.staffReportVoList.length>maxlength){
-          maxlength = item.staffReportVoList.length;
-          Item = item;
-        }
+    makeColumns(arr){
+      let length =0;
+      let columnsTemp=[];
+      arr.map((item)=>{
+        if(item.list.length>length){
+          columnsTemp = item.list;
+        };
       });
-      this.columns = [
-        { title: '员工', key: 'staffName',align:'center',width:120,fixed: 'left'},
-        { title: '角色', key: 'roleName',align:'center',width:120 }
-        ];
-       let children=[];
-     Item.staffReportVoList.map((item)=>{
-         children = [
-          {title: '目标', key:item.yearMonth+'saleTarget',align: 'center', width: 80},
-          {title: '实际', key: item.yearMonth+'posSale',align: 'center', width: 80},
-          {title: '达成率', key: item.yearMonth+'ratio',align: 'center', width: 80},
-          ]
-       this.columns.push( {title: item.yearMonth, key: item.yearMonth,align:'center',  width:120,children:children }) //横坐标参数
-     });
+      let yearMonths = [];
+      columnsTemp.map((item)=>{
+        yearMonths.push(item.yearMonth);
+      });
+      yearMonths = Array.from(new Set(yearMonths))
+      this.columns=this.columns.splice(0,2)
+      yearMonths.map((item)=>{
+        this.columns.push({
+          title:item,
+          key:item,
+          align: 'center',
+          minWidth:100,
+        })
+      })
     },
-    disableStartDate(date){
-    	if(this.query.endYearMonth){
-    		return date > new Date(this.query.endYearMonth);
-    	}else{
-    		return date > new Date();
-    	}
-    },
-    disableEndDate(date){
-    	if(this.query.beginYearMonth){
-    		return date < new Date(this.query.beginYearMonth);
-    	}else{
-    		return date >new Date();
-    	}
-    },
+
+
   }
 };
 </script>
 <style scoped lang="less">
-
-    .formitem{
-      color: white;
+    .wrapBox{
+        overflow-y: auto;
+        background: #09153D;
     }
-    .query{
-        height: 80px;
-        line-height: 80px;
-    }
-    .formItem{
-      width: 150px;
-      display: inline-block;
-    }
-
 </style>

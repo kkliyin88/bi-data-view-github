@@ -1,39 +1,24 @@
 <template>
-  <div >
-    <Modal @on-visible-change='cancel'  v-model='value'  :title='editMsg.title' >
-      <Form :model="editData" :label-width="80">
-        <Row>
-          <Col span="12">
-            <FormItem label="运算符名称">
-              <Input v-model="editData.name" ></Input>
-            </FormItem>
-          </Col>
-          <Col span="12">
-            <FormItem label="运算符符号">
-              <Input v-model="editData.nameEn" ></Input>
-            </FormItem>
-          </Col>
-        </Row>
-        <Row>
-          <Col span="12">
-            <FormItem label="版本号">
-              <Input v-model="editData.versions" ></Input>
-            </FormItem>
-          </Col>
-          <Col span="12">
-            <FormItem label="备注">
-              <Input v-model="editData.remark" ></Input>
-            </FormItem>
-          </Col>
-        </Row>
-      </Form>
-       <div slot='footer'>
-        <Button  @click='cancel'>取消</Button>
-        <Button type="primary" @click='sumit' :loading='loading'>提交</Button>
-      </div>
-    </Modal>
-  </div>
-
+   <Drawer :title='editMsg.title'  inner :value='value' @on-close='cancel' closable scrollable  draggable>
+    <Form :model="editData" :label-width="80" class='edit'>
+      <FormItem label="运算符名称">
+        <Input v-model="editData.name" ></Input>
+      </FormItem>
+      <FormItem label="运算符符号">
+        <Input v-model="editData.nameEn" ></Input>
+      </FormItem>
+      <FormItem label="版本号">
+        <Input v-model="editData.versions" ></Input>
+      </FormItem>
+      <FormItem label="备注">
+        <Input v-model="editData.remark" ></Input>
+      </FormItem>
+    </Form>
+    <div class='ivu-drawer-footer'>
+      <Button  @click='cancel'>取消</Button>
+      <Button type="primary" @click='sumit' :loading='loading'>提交</Button>
+    </div>
+  </Drawer>
 </template>
 <script>
   import { post } from '@/axios/fetch';

@@ -1,12 +1,16 @@
 <template>
     <div id="Home">
       <head-top></head-top>
-      <div class="wrapper" ref="wrapper">
+      <div class="wrapper">
            <sidebar ></sidebar>
-          <div class="main" :style="{left:slideflag?'160px':0}">
-            <div class="container">
-                <router-view></router-view>
-            </div>
+          <div class="main" :style="{left:slideflag?'150px':0}">
+            <transition name="fade" mode="out-in" appear>
+              <keep-alive >
+                <div class="container">
+                    <router-view></router-view>
+                </div>
+             </keep-alive>
+            </transition>
           </div>
         </div>
       </div>
@@ -27,8 +31,7 @@
         }
       },
       mounted(){
-        window.addEventListener("resize", this.getHeight);
-        this.getHeight();
+
       },
       computed:{
         ...mapState({
@@ -36,11 +39,12 @@
         }),
       },
       methods:{
-        getHeight() {
-          //设置页面高度
-          this.pageHeight = window.innerHeight;
-          this.$refs.wrapper.style.height = this.pageHeight - 74 + "px";
-        }
       }
     }
 </script>
+<style less='lange'>
+   .fade-enter,.fade-leave-to{
+          opacity:  0;/*透明度*/
+          transition: all 2s ease;
+        }
+</style>

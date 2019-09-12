@@ -4,5 +4,5 @@ const prodEnv = require('./prod.env')
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  API_ROOT:'"/apis"'   //本地域名
+  API_ROOT:'"/apis"',   //本地域名
 })

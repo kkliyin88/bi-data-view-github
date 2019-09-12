@@ -1,18 +1,24 @@
 <template>
-  <div ref="wrap" class='wrapBox'>
-     <section class='query'>
-          <span class='formitem'>开始时间:</span>
-          <DatePicker size='small' type="month" placeholder="Select month" style="width: 150px;margin-left: 10px;"></DatePicker>
-          <span class='formitem' style="margin-left: 15px;">结束时间:</span>
-          <DatePicker size='small' type="month" placeholder="Select month" style="width: 150px;margin-left: 10px"></DatePicker>
-     </section>
+  <div ref="wrap" class='wrapBox' style='padding: 8px;'>
+    <section ref='querybox' >
+      <Query ref='query' :query='query' disableOrg>
+         <span slot='after'>
+          <FormItem :label-width='0' >
+             <Button size='small' @click='search' :loading='loading'>查询</Button>
+          </FormItem>
+           <FormItem :label-width='0' >
+             <Button size='small' @click='goback' :loading='loading' v-if='this.level>1'>返回上一级</Button>
+          </FormItem>
+        </span>
+      </Query>
+    </section>
     <div>
       <Row>
-        <Col :span="12" v-if='level!=4'>
-          <div ref="myChart1" class='chart1' :style="{height: pageHeight-140+'px'}"></div>
+        <Col :span="12" v-if='level!==4'>
+          <div ref="myChart1" class='chart1' :style="{height: pageHeight-queryBoxHeight-140+'px'}"></div>
         </Col>
         <Col :span="level==4?24:12">
-            <Table  :data='tableData' :columns="columns" size='small' ></Table>
+            <Table  :data='tableData'  :show-header='tableData.length>0' :columns="columns" :loading='loading' size='small' :max-height='pageHeight-queryBoxHeight-160' ></Table>
         </Col>
       </Row>
     </div>
@@ -20,114 +26,58 @@
 </template>
 <script>
 import { post } from "@/axios/fetch";
+import Query from '../components/query/index.vue';
+import chartOption from './chartOption.js';
 export default {
-  components: {},
+  components: {Query},
   data() {
     return {
       pageHeight:null,
+      queryBoxHeight:20,
       loading:false,
       tableData:[],
+      query:{},
       myChart:{},
       relativeArr:[{},
-        {title:'办事处销售占比',url:'/kasm/saleReport/findOrgSale',param:{}},
-        {title:'分销商销售占比',url:'/kasm/saleReport/findDealerSale',param:{}}, // orgNo
-        {title:'零售商销售占比',url:'/kasm/saleReport/findMarketSale',param:{}}, // dealerNo
-        {title:'门店销售占比',url:'/kasm/saleReport/findStoreSale',param:{}},  // marketNo
+        {chartTitle:'办事处销售占比',tableTitle:'办事处',url:'/kasm/saleReport/findOrgSale',param:{}},
+        {chartTitle:'分销商销售占比',tableTitle:'分销商',url:'/kasm/saleReport/findDealerSale',param:{}}, // orgNo
+        {chartTitle:'零售商销售占比',tableTitle:'零售商',url:'/kasm/saleReport/findMarketSale',param:{}}, // dealerNo
+        {chartTitle:'门店销售占比',tableTitle:'门店',url:'/kasm/saleReport/findStoreSale',param:{}},  // marketNo
       ],
       level:1, //1,2,3,4分别表示办事处/经销商/零售商/门店/
       columns:[
-          {   title: '序号',
-              type: 'index',
-              align: 'center'
-          },
            {
-            title: '名称',
+            title: '',
             key: 'name',
             align:'center',
+            minWidth:100,
           },
           {
             title: '数量',
             key: 'posSaleSum',
             align:'center',
+            render: (h, params) => {
+                if(!params.row.posSaleSum){
+                  return h('span', {},0)
+                }
+                return h('span', {},params.row.posSaleSum.toFixed(2))
+            }
           },
            {
             title: '占比',
-            key: 'posSaleRatio2',
             align:'center',
-            sortable: true
+            render: (h, params) => {
+              if(!params.row.posSaleRatio){
+                return h('span', {},0)
+              }
+              return h('span', {},(params.row.posSaleRatio*100).toFixed(2)+'%')
+            }
           },
       ],
-      chartOption:{
-        backgroundColor: '#09153D',
-        title: {
-          text: "",
-          x: 'left',
-          textStyle:{
-            color:'#FFF',
-            fontSize:'14px',
-          }
-        },
-        toolbox: {
-            right:20,
-            feature: {
-                myTool: {
-                    show: true,
-                    title: '返回',
-                    icon: 'image://../../../static/image/chartGoBack.png',
-                    onclick:()=>{
-                        if(this.level-1 == 1 ){
-                           this.relativeArr[this.level-1].param = {};
-                        }
-                        if(this.level==1){
-                            return
-                        }
-                      this.getPageData(this.relativeArr[this.level-1].url,this.relativeArr[this.level-1].param);
-                    }
-                }
-            }
-        },
-        tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b} : {d}%"
-        },
-        legend: {
-          orient: "horizontal",
-          x: "center",
-          y: "bottom",
-          data: [],
-          textStyle:{
-            color:'#fff'
-          }
-        },
-        calculable: true,
-        color:['red', 'green','yellow','blue','gray','black','grey','#CCC','blueviolet','#EEE','#AAA',],
-        series: [
-          {
-            type: "pie",
-            radius: "55%",
-            data: [],
-            itemStyle: {
-              emphasis: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)"
-              },
-              normal: {
-
-                label: {
-                  show: false,
-                  formatter: "{b} : ({d}%)"
-                },
-
-              }
-            }
-          }
-        ]
-      },
     };
   },
   mounted() {
-     this.getPageData(this.relativeArr[this.level].url,this.relativeArr[this.level].param);
+     // this.getPageData(this.relativeArr[this.level].url,this.relativeArr[this.level].param);
      window.addEventListener("resize", this.getHeight);
      this.getHeight();
   },
@@ -138,10 +88,43 @@ export default {
     getHeight() {
       //设置页面高度
       this.pageHeight = window.innerHeight;
-      this.$refs.wrap.style.height = this.pageHeight - 75 + "px";
+      this.$refs.wrap.style.height = this.pageHeight - 78 + "px";
+    },
+     getQuerySectionHeight(){
+      if(this.$refs.querybox&&this.$refs.querybox.style && this.$refs.querybox.style.height){
+        this.queryBoxHeight =  this.$refs.querybox.style.height;
+      }
+    },
+    goback(){
+      if(this.level-1 == 1 ){
+           this.relativeArr[this.level-1].param = {};
+        }
+        if(this.level==1){
+            return
+        }
+      this.getPageData(this.relativeArr[this.level-1].url,this.relativeArr[this.level-1].param);
+    },
+    search(){
+      this.getPageData(this.relativeArr[this.level].url,this.relativeArr[this.level].param);
     },
     getPageData(url,param,){
-        post(url,param).then(res=>{
+        let flag = false;
+        this.$refs.query.$refs.form.validate((valid)=>{
+        	flag = !valid;
+        });
+        if(flag) return false;
+        this.loading = true;
+        let params =JSON.parse(JSON.stringify(this.query));
+        if(params.beginYearMonth){
+          let begin = new Date(params.beginYearMonth)
+          params.beginYearMonth = begin.getFullYear() + '-' + (begin.getMonth()+1).toString().padStart(2,'0');
+        }
+        if(params.endYearMonth){
+           let end = new Date(params.endYearMonth)
+           params.endYearMonth = end.getFullYear() + '-' + ( end.getMonth()+1).toString().padStart(2,'0');
+        }
+        post(url,{...param,...params}).then(res=>{
+            this.loading = false;
             if(res.code!==200){
                 this.$Modal.warning({
                     title:'提示',
@@ -149,18 +132,21 @@ export default {
                   })
                 return
             }
-           this.tableData = res.data;
-           console.log('tableData',this.tableData)
+           this.tableData =JSON.parse(JSON.stringify(res.data));
+           this.getQuerySectionHeight();
+           this.level=res.data.length>0?res.data[0].level:1;
            res.data.map((item)=>{
                item.value = item.posSaleRatio;
-               this.chartOption.legend.data.push(item.name);
-               item.posSaleRatio2 =  this.toPercent(item.posSaleRatio);
+               chartOption.legend.data.push(item.name);
            });
-           this.chartOption.series[0].data = res.data;
-           this.level = res.data[0].level;
-           this.chartOption.title.text = this.relativeArr[this.level].title;
+           chartOption.series[0].data = res.data;
+           chartOption.series[0].data.splice(res.data.length-1,1)  //左边图表将总计去除
+           this.columns[0].title =this.relativeArr[this.level].tableTitle;
+           chartOption.title.text = this.relativeArr[this.level].chartTitle;
+           if(this.level==4) return ;
            this.drawChart1();
         }).catch(error=>{
+          this.loading = false;
            console.log('error',error)
           this.$Modal.warning({
             title:'提示',
@@ -168,32 +154,26 @@ export default {
           })
         })
     },
-    toPercent(data){
-    	if(data==''||data==null||data==undefined){
-    		return data
-    	};
-    	var str=Number(data*100).toFixed(2);
-    	str+="%";
-    	return str;
-    },
+
     drawChart1() {
       // 基于准备好的dom，初始化echarts实例
-      this.myChart = this.$echarts.init(this.$refs.myChart1);
-      // 绘制图表
-      this.myChart.setOption(this.chartOption);
-      this.myChart.on('click',(params)=>{
-         if(params.data.level ==4){
-             return
-         };
-         if(params.data.level==1){
-              this.relativeArr[params.data.level+1].param.orgNo = params.data.orgNo;
-         }else if(params.data.level==2){
-             this.relativeArr[params.data.level+1].param.dealerNo = params.data.dealerNo;
-         }else if(params.data.level==3){
-           this.relativeArr[params.data.level+1].param.marketNo = params.data.marketNo;
-         }
-         this.getPageData(this.relativeArr[params.data.level+1].url,this.relativeArr[params.data.level+1].param);
-     })
+      this.$nextTick(()=>{
+         this.myChart = this.$echarts.init(this.$refs.myChart1); // 绘制图表
+         this.myChart.setOption(chartOption);
+         this.myChart.on('click',(params)=>{
+            if(params.data.level ==4){
+                return
+            };
+            if(params.data.level==1){
+                 this.relativeArr[params.data.level+1].param.orgNo = params.data.orgNo;
+            }else if(params.data.level==2){
+                this.relativeArr[params.data.level+1].param.dealerNo = params.data.dealerNo;
+            }else if(params.data.level==3){
+              this.relativeArr[params.data.level+1].param.marketNo = params.data.marketNo;
+            }
+            this.getPageData(this.relativeArr[params.data.level+1].url,this.relativeArr[params.data.level+1].param);
+        })
+      })
     },
   }
 };
@@ -201,16 +181,7 @@ export default {
 <style scoped lang="less">
     .wrapBox{
         overflow-y: auto;
-       .chart1{
-           width: 100%;
-       }
     }
-    .formitem{
-      color: white;
-    }
-    .query{
-        height: 50px;
-        line-height: 50px;
-    }
+
 
 </style>

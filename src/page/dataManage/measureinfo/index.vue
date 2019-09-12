@@ -1,14 +1,14 @@
 <template>
   <div ref='wrap'>
     <section class='search_box'>
-        <Button icon="plus" size='small' @click="showEdit('add')" type="info">添加</Button>
-        <Button icon="plus" size='small'  @click="del" type="warning">删除</Button>
+        <Button  size='small' type='primary'  @click="showEdit('add')" >添加</Button>
+        <Button size='small'   @click="del" >删除</Button>
     </section>
     <div class='table_box'>
       <Table border ref="selection" size='small' highlight-row :columns="columns"  :loading='loading' @on-selection-change="selectionData" :data="tableData" :height='pageHeight -210'> </Table>
     </div>
-    <div class="pagesize_box">
-       <Page :total='pageQuery.total'  size='small' @on-change='changePageNum' @on-page-size-change='changePageSize' :page-size-opts='[10,20,30]' show-elevator show-sizer show-total />
+  <div class="pagesize_box">
+       <Page :total='pageQuery.total' :current='pageQuery.query.pageNum' :page-size='pageQuery.query.pageSize' size='small' @on-change='changePageNum' @on-page-size-change='changePageSize' :page-size-opts='[20,30,40,50]' show-elevator show-sizer show-total />
     </div>
     <div v-if='editFlag'>
       <Edit :editData='editData' @getPageData='getPageData' v-model='editFlag' :editMsg='editMsg'> </Edit>
@@ -29,7 +29,7 @@
         checkData:[],
         pageHeight:window.innerHeight,
         pageQuery:{
-          query:{ pageNum:1,pageSize:10},
+          query:{ pageNum:1,pageSize:20},
           total:0,
         },
         model11:'',
@@ -133,11 +133,10 @@
       },
       getPageData(){
         this.loading = true;
-        let params = this.pageQuery.query
         post('/measure/info/queryPageInfo',this.pageQuery.query).then(res=>{
           this.loading = false;
           if(res.code == 200){
-              this.tableData = res.data.list;
+          this.tableData = res.data.list;
          this.pageQuery.query.pageNum = res.data.pageNum;
          this.pageQuery.query.pageSize = res.data.pageSize;
             this.pageQuery.total = this.tableData.length <=0?0:this.tableData[0].total;
@@ -183,8 +182,5 @@
   };
 </script>
 <style scoped lang="less">
-  .pagesize_box{
-      position: absolute;
-      bottom: 10px;
-    }
+
 </style>

@@ -6,7 +6,7 @@
            <span class='title'>选择日期:</span>
              <section class='date_box' fix>
                <Tooltip :content="dateTypeContent.value=='self'?'静态时间':dateTypeContent.name" placement="right-start">
-                <Button @click='()=>{showDateBoxFlag=true}'>{{dateTypeContent.value==''||dateTypeContent.value=='self'?dateTypeContent.name:startDate+' ~ '+endDate}}</Button> 
+                <Button @click='()=>{showDateBoxFlag=true}'>{{dateTypeContent.value==''||dateTypeContent.value=='self'?dateTypeContent.name:startDate+' ~ '+endDate}}</Button>
                </Tooltip>
                <ul v-if='showDateBoxFlag' @mouseleave="()=>{showDateBoxFlag=false}" class='dateul'>
                  <li v-for='(item,i) in dateTypeList' @click="selectDate(item)" :class='{half:item.half}'><span>{{item.name}}</span></li>
@@ -25,13 +25,13 @@
                  <Form :model="item" :rules='rules' :ref="'formValidate'+i">
                    <Row :gutter="6">
                      <Col span="6">
-                       <FormItem prop="key" > 
-                         <Select  @on-change='(value)=>{getEquStyle(value,i,item.category)}' v-model='item.key' v-if="item.category=='dimension'" clearable> 
+                       <FormItem prop="key" >
+                         <Select  @on-change='(value)=>{getEquStyle(value,i,item.category)}' v-model='item.key' v-if="item.category=='dimension'" clearable>
                           <Option v-for='(item2,index) in dimensionList' :disabled='item2.disabled' :key='index' :value='item2.nameEn' :label='item2.name'>
                          <span><Icon type="ios-pulse" /></span><span style='margin-left: 15px;'>{{item2.name}}</span>
                           </Option>
                          </Select>
-                         <Select  @on-change='(value)=>{getEquStyle(value,i,item.category)}' v-model='item.key' v-if="item.category=='measure'"> 
+                         <Select  @on-change='(value)=>{getEquStyle(value,i,item.category)}' v-model='item.key' v-if="item.category=='measure'">
                           <Option v-for='(item2,index) in measureList' :disabled='item2.disabled' :key='index' :value='item2.nameEn' :label='item2.name'>
                              <span><Icon type="ios-stats-outline" /></span><span style='margin-left: 15px;'>{{item2.name}}</span>
                           </Option>
@@ -45,13 +45,13 @@
                          </Select>
                        </FormItem >
                      </Col>
-                     
+
                      <Col span="6">
-                       <FormItem  prop="value1" v-if="item.category=='measure'"> 
-                        <Input v-model.number='item.value1' placeholder="请输入数字类型"></Input> 
+                       <FormItem  prop="value1" v-if="item.category=='measure'">
+                        <Input v-model.number='item.value1' placeholder="请输入数字类型"></Input>
                        </FormItem >
                        <FormItem prop="value" v-if="item.category=='dimension'">
-                        <Input v-model='item.value'></Input> 
+                        <Input v-model='item.value'></Input>
                        </FormItem >
                      </Col>
                      <Col span="2">
@@ -171,8 +171,8 @@
          let parent = this.$parent.$refs.parent.childNodes;
         let  params = {eventId:this.selectEventItem,dashboardId:this.$parent.$route.query.id,
            dimensionIds:this.getId(this.dimensionQueryList),measureIds:this.getId(this.measureQueryList),dateType:this.dateTypeContent.value,
-           uuId:this.chartActiveMsg.uuId.toString(), graphTemplateId:this.chartActiveMsg.id,criteriaFieldDto:condition
-         } 
+           uuId:this.chartActiveMsg.uuId.toString(), graphTemplateId:this.chartActiveMsg.id,criteriaFieldDto:condition,
+          }
          this.loading = true;
         post('/dashboard/event/insert/'+formatDate(this.startDate)+'/'+formatDate(this.endDate),{...params}).then((res)=>{
           this.loading = false;
@@ -232,7 +232,7 @@
         }
       });
     },
-    getEquStyle(value,index,type){ 
+    getEquStyle(value,index,type){
       if(type == 'dimension'){
         this.dimensionList.map((item)=>{
          if(item.nameEn == value){

@@ -22,6 +22,9 @@ const personTargetPerformance = resolve => require(['@/page/KAChart/personTarget
 const saleTargetPerformance = resolve => require(['@/page/KAChart/saleTargetPerformance'], resolve);
 const costAnalysisReport = resolve => require(['@/page/KAChart/costAnalysisReport'], resolve)
 
+//testDemo
+const jsplumb1 = resolve => require(['@/page/testDemo/jsplumb/demo1.vue'], resolve)
+
 Vue.use(Router);
 export default new Router({
   routes: [
@@ -109,9 +112,15 @@ export default new Router({
        },
        {
          path: '/KAChart/costAnalysisReport',
-         component: saleTargetPerformance,
+         component: costAnalysisReport,
          meta: { title: '费用分析报表' }
        },
+       {
+         path: '/test/demo1',
+         component: jsplumb1,
+         meta: { title: 'demo1' }
+       },
+
       ]
     },
     {

@@ -1,38 +1,24 @@
 <template>
-  <div >
-     <Modal  @on-visible-change='cancel' :value='value'  :title='editMsg.title' :loading='loading'>
-       <Form :model="editData" :label-width="80">
-         <Row>
-            <Col span="12">
-               <FormItem label="维度名称">
-                  <Input v-model="editData.name" ></Input>
-              </FormItem>
-            </Col>
-             <Col span="12">
-               <FormItem label="维度编码">
-                  <Input v-model="editData.nameEn" :disabled="editMsg.type=='edit'" ></Input>
-              </FormItem>
-             </Col>
-         </Row>
-          <Row>
-            <Col span="12">
-               <FormItem label="版本号">
-                  <Input v-model="editData.versions" ></Input>
-              </FormItem>
-            </Col>
-             <Col span="12">
-               <FormItem label="备注">
-                  <Input v-model="editData.remark" ></Input>
-              </FormItem>
-             </Col>
-         </Row>
+   <Drawer :title='editMsg.title'  inner :value='value' @on-close='cancel' closable scrollable  draggable>
+       <Form :model="editData" :label-width="80" class='edit'>
+           <FormItem label="维度名称">
+              <Input v-model="editData.name" ></Input>
+          </FormItem>
+           <FormItem label="维度编码">
+              <Input v-model="editData.nameEn" :disabled="editMsg.type=='edit'" ></Input>
+          </FormItem>
+           <FormItem label="版本号">
+              <Input v-model="editData.versions" ></Input>
+          </FormItem>
+           <FormItem label="备注">
+              <Input v-model="editData.remark" ></Input>
+          </FormItem>
       </Form>
-      <div slot='footer'>
+      <div class='ivu-drawer-footer'>
         <Button  @click='cancel'>取消</Button>
         <Button type="primary" @click='sumit' :loading='loading'>提交</Button>
       </div>
-    </Modal>
-  </div>
+   </Drawer>
 </template>
 <script>
   import {post} from '@/axios/fetch';
@@ -80,5 +66,3 @@
     }
   };
 </script>
-<style scoped lang="less">
-</style>

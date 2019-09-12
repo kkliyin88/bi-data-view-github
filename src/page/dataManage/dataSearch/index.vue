@@ -1,11 +1,11 @@
 <template>
   <div class='wrap' :style="{height:pageHeight +'px'}" ref='wrap'>
-    <div class='left' ref='leftBox'>
+    <div class='left' ref='leftBox' style="background: green;">
        <div class='chartModel'>
          <ul class='chartItemRow'>
          	<li v-for='(item,index) in modelList'  @mouseenter='showColumnItem(index)' @mouseleave='hideColumnItem(index)'>
          	   <span class='imgRow' @click='selectChartModel(item[0])'><img :src='item[0].picUrl' /></span>
-         	  <ul v-if='showColumnItemIndex==index' class='chartItemColum' 
+         	  <ul v-if='showColumnItemIndex==index' class='chartItemColum'
          	    @mouseenter='showColumnItem(index)' @mouseleave='hideColumnItem(index)'>
          	    	<li v-for="(item2,index2) in item" :key='index2' v-if='index2>0'>
          	    	  <span @click='selectChartModel(item2,index)'><img :src='item2.picUrl' /></span>
@@ -15,12 +15,12 @@
          </ul>
           <Button v-if='chartSort.length > 0' type='primary' @click="saveSort"  class="sortBTN">排序保存</Button>
        </div>
-       <div class='chartBox' ref='chartBox' :style="{background:chartsList.length>0?'#FFF':'rgb(236,234,239)'}" >
+       <div class='chartBox' ref='chartBox' >
          <img src="@/assets/computer.png" v-if='chartsList.length<1' />
         <Spin size="large" fix v-if='pageLoading'></Spin>
         <ul ref="parent" style="width:100%;">
-          <li v-for="(item,index) in chartsList" :uuid='item.uuId' :class="{chartList:'true',chartActive:chartActiveMsg.uuId==item.uuId}" @click='selectChart(item)' 
-              draggable="true" @dragstart="dragstart($event)" @dragover="dragover($event)" @drop="drop($event)" 
+          <li v-for="(item,index) in chartsList" :flagkey='index' :uuid='item.uuId' :class="{chartList:'true',chartActive:chartActiveMsg.uuId==item.uuId}" @click='selectChart(item)'
+              :draggable="true" @dragstart="dragstart($event,index)" @dragover="dragover($event)" @drop="drop($event,index)"
               @mouseenter="()=>{chartOverIndex=index}" @mouseleave="()=>{chartOverIndex=-1;chartSettingBoxIndex=-1}">
                <div class='echartsBox' style="width:100%;height:100%;"></div>
                <div class='back_btn' v-if='item.chartJson &&item.chartJson.toolbox &&item.chartJson.toolbox.feature&& item.chartJson.toolbox.feature.myTool&& item.chartJson.toolbox.feature.myTool.show' @click='goBack'><Icon type="ios-undo-outline" size='25'/></div>
@@ -37,7 +37,7 @@
      <div class='right' >
       <div class='searchBox'>
          <section class='dimension' ref='dimension' type='dimension' :drapflag='true'
-            draggable="false" @dragstart="dragstart($event)" @dragover="dragover($event)"@drop="drop($event)">
+            draggable="false" @dragstart="dragstart($event)" @dragover="dragover($event)" @drop="drop($event)">
              <div class='line'></div>
            <p class='title'>维度</p>
            <ul>
@@ -53,7 +53,7 @@
           </ul>
         </section>
         <section class='measure' ref='measure'  type='measure'  :drapflag='true'
-          draggable="false" @dragstart="dragstart($event)" @dragover="dragover($event)"@drop="drop($event)">
+          draggable="false" @dragstart="dragstart($event)" @dragover="dragover($event)" @drop="drop($event)">
           <div class='line'></div>
           <p class='title'>度量</p>
           <ul>
@@ -79,14 +79,14 @@
              <Option v-for="(item,index) in eventList" :label='item.name' :value='item.id' :key='index'></Option>
           </Select>
         </section>
-       
+
         <section class='dimension'>
           <div class='line' style='margin-top: 20px;'></div>
           <p class='title'>维度</p>
           <ul class='MD'>
             <li v-for='(item,index) in dimensionList'  @click="singleClick(index,'dimension')" @dblclick="addQuery(item,'dimension')">
-               <span type='dimension' :idd='item.id' :name='item.name' 
-                 draggable="true" @dragstart="dragstart($event)" @dragover="dragover($event)" @drop="drop($event)"
+               <span type='dimension' :idd='item.id' :name='item.name'
+                 :draggable="true" @dragstart="dragstart($event)" @dragover="dragover($event)" @drop="drop($event)"
                  :class="{dimensionActive:index==dimensionClickIndex}">{{item.name}}</span>
             </li>
           </ul>
@@ -97,8 +97,8 @@
           <p class='title'>度量</p>
           <ul  class='MD'>
             <li v-for='(item,index) in measureList'  @click="singleClick(index,'measure')" @dblclick="addQuery(item,'measure')">
-               <span  :name='item.name' type='measure' :idd='item.id' 
-              draggable="true" @dragstart="dragstart($event)" @dragover="dragover($event)" @drop="drop($event)"
+               <span  :name='item.name' type='measure' :idd='item.id'
+              :draggable="true" @dragstart="dragstart($event)" @dragover="dragover($event)" @drop="drop($event)"
               :class="{measureActive:index==measureClickIndex}">{{item.name}}</span>
             </li>
           </ul>
@@ -159,7 +159,7 @@
          option1: {},
         chartSort:[], //图表排序传给后台
       }
-     
+
     },
     mounted(){
       this.getEventList();
@@ -167,12 +167,27 @@
       this.getModelData();
       this.getHeight();
       window.addEventListener('resize', this.getHeight);
-     
+      this.test();
     },
     destroyed(){
       window.removeEventListener('resize', this.getHeight)
     },
     methods: {
+      test(){
+        let url = '/sa/polymerize/' + this.$route.query.id;
+        post(url).then(res=>{
+          console.log('res',res);
+          if(res.code == 200){
+            this.$Message.success('success');
+          }
+        }).catch(error=>{
+          console.log('error:',error)
+          this.$Modal.warning({
+            title:'提示',
+            content:'连接服务失败!'
+          })
+        })
+      },
       goBack(){
         this.getPageData();
       },
@@ -186,8 +201,8 @@
       this.chartArr[index].showLoading();
       let name = e.batch[0].name;
       let pinyinName = provinceMap[name]
-      let mapJson = await axios.get(     
-          `/static/province/${pinyinName}.json`      
+      let mapJson = await axios.get(
+          `/static/province/${pinyinName}.json`
       );
       this.chartArr[index].hideLoading();
       echarts.registerMap(pinyinName, mapJson.data);
@@ -221,18 +236,14 @@
       },
       getPageData(){
         this.pageLoading = true;
-        let url ='/remote/findByDay/'+this.$route.query.id;
+        // let url ='/remote/findByDay/'+this.$route.query.id;
+        let url = '/sa/polymerize/' + this.$route.query.id;
         this.chartActiveMsg = {};
         this.dimensionList =[];
         this.measureList =[];
         this.dimensionQueryList =[];
         this.measureQueryList = [];
         this.selectEventItem ='';
-//      this.chartsList.map((item,i)=>{
-//        if(item.uuId==this.chartActiveMsg.uuId){
-//          this.chartsList[i].chartJson ={toolbox:{feature:{myTool:{show:false}}}};
-//        }
-//      })
         post(url).then(res=>{ //JSON.stringify(params)
           this.pageLoading = false;
           if(res.code == 200){
@@ -240,7 +251,6 @@
             this.chartsList.map((item,index)=>{
               item.chartJson = JSON.parse(item.chartJson);
             });
-            
             this.initChart();
           }
         }).catch(error=>{
@@ -253,7 +263,7 @@
         })
       },
      async initChart(){
-       let mapJson = await axios.get('/static/china.json');  
+       let mapJson = await axios.get('/static/china.json');
         this.$nextTick(()=>{
           let chartsli=document.querySelectorAll('.chartList'); //外层li
           let chartLists=document.querySelectorAll('.echartsBox'); //图标的box;
@@ -273,7 +283,7 @@
               this.chartArr[i].setOption(this.chartsList[i].chartJson,true);
           }
         })
-        
+
       },
       showchartData(item,index){ //查看数据对话框
         this.chartDetailData = item;
@@ -281,7 +291,7 @@
       },
       deleteChart(item){ //删除echart
         let url = '/dashboard/event/deleteByPrimaryKey/'+item.uuId
-        post(url).then(res=>{ 
+        post(url).then(res=>{
           if(res.code == 200){
            this.$Message.success('success');
            this.getPageData();
@@ -310,15 +320,18 @@
             content:'连接服务失败!'
           })
         })
-        
+
       },
-      dragstart(e){
+      dragstart(e,index){
          var eo = e || event;
          this.moveDom = eo.currentTarget;
+         this.moveDomKey= this.moveDom.getAttribute('flagkey');
+         this.moveDomData =this.chartsList[this.moveDomKey]
+         console.log('moveDomKey',this.moveDomKey)
          this.startX = eo.clientX;
          this.startY = eo.clientY;
       },
-      dragover(e){
+      dragover(e,index){
         var eo = e || event;
         eo.preventDefault();
         this.changeDom = eo.currentTarget;
@@ -330,7 +343,7 @@
           this.$refs[type].style.background = 'rgb(83,90,110)';
         }
       },
-    drop(e){
+    drop(e,index){
       const that = this;
       var eo = e || event;
       eo.preventDefault();
@@ -348,15 +361,29 @@
         return;
       }
       //针对左边栏的拖动
-      
       this.changeDom = eo.currentTarget;
+      this.changeDomData =this.chartsList[this.moveDomKey]
       this.endX = eo.clientX;
-      if(this.endX - this.startX >= 0){
+      this.changeDomKey = this.changeDom.getAttribute('flagkey');
+       this.changeDomData =this.chartsList[this.changeDomKey]
+      let y = this.endY-this.startY;
+      let x = this.endX - this.startX;
+      console.log('changeDomKey',this.changeDomKey)
+      if(x>0){ //同一行内交换
         this.$refs.parent.insertBefore(this.moveDom,this.changeDom.nextSibling);
+         console.log(11)
       }else{
         this.$refs.parent.insertBefore(this.moveDom,this.changeDom);
+          console.log(22)
       }
-      
+      //交换数据的思路,要重新渲染，页面又延时
+      // this.$set(this.chartsList,this.changeDomKey,JSON.parse(JSON.stringify(this.moveDomData)));
+      // this.$set(this.chartsList,this.moveDomKey,JSON.parse(JSON.stringify(this.changeDomData)));
+      // console.log('chartsList',this.chartsList);
+      // this.moveDom = null;
+      // this.changeDom = null;
+      // this.initChart();
+      // this.$forceUpdate()
       if(!this.moveDom.getAttribute('uuid')){ //针对左边图标的排序传给后台
         return
       }
@@ -406,7 +433,7 @@
       this.dimensionQueryList = [];
       this.MDLoading = true;
       let url = '/event/info/factTableQuery/'+eventId
-      post(url).then(res=>{ 
+      post(url).then(res=>{
           this.MDLoading = false;
           if(res.code == 200){
           this.measureList = res.data.measure;

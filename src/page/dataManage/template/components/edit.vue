@@ -1,62 +1,39 @@
 <template>
   <div >
-    <Modal  @on-visible-change='cancel'   v-model='value' :width='600' :title='editMsg.title' :loading='loading'>
-      <Form :model="editData" :label-width="80">
-        <Row>
-          <Col span="12">
+    <Drawer :title='editMsg.title'  width='400' inner :value='value' @on-close='cancel' closable scrollable  draggable>
+      <Form :model="editData" :label-width="80" class='edit'>
             <FormItem label="模板名称">
-              <Input v-model="editData.name" ></Input>
+              <Input v-model="editData.name" clearable ></Input>
             </FormItem>
-          </Col>
-          <Col span="12">
             <FormItem label="模板类型">
-              <Select v-model="editData.type" style="width: 204px" filterable>
+              <Select v-model="editData.type" clearable filterable>
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
             </FormItem>
-          </Col>
-        </Row>
-        <Row>
-          <Col span="12">
             <FormItem label="模板宽度">
-              <Input v-model="editData.pattern" ></Input>
+              <Input v-model="editData.pattern" clearable></Input>
             </FormItem>
-          </Col>
-           <Col span="12">
             <FormItem label="模板高度">
-              <Input v-model="editData.height" ></Input>
+              <Input v-model="editData.height"  clearable></Input>
             </FormItem>
-          </Col>
-        </Row>
-        <Row>
-           <Col span="12">
               <FormItem label="版本号">
-              <Input v-model="editData.versions" ></Input>
+              <Input v-model="editData.versions" clearable ></Input>
             </FormItem>
-          </Col>
-          <Col span="12">
             <FormItem label="备注">
-              <Input v-model="editData.remark" ></Input>
+              <Input v-model="editData.remark" clearable ></Input>
             </FormItem>
-          </Col>
-        </Row>
-        <Row>
-          <Col span="12">
-            
-          </Col>
-        </Row>
         <FormItem label="图标地址">
-          <Input v-model="editData.picUrl" type="textarea" :rows="2" ></Input>
+          <Input v-model="editData.picUrl" type="textarea" :rows="2" clearable ></Input>
         </FormItem>
          <FormItem label="模板格式">
-              <Input v-model="editData.h5TemplateCode" type="textarea" :autosize='{minRows:3,maxRows:6}' ></Input>
+            <Input v-model="editData.h5TemplateCode" type="textarea" :autosize='{minRows:5,maxRows:10}' ></Input>
          </FormItem>
       </Form>
-      <div slot='footer'>
+      <div class='ivu-drawer-footer'>
         <Button  @click='cancel'>取消</Button>
         <Button type="primary" @click='sumit' :loading='loading'>提交</Button>
       </div>
-    </Modal>
+   </Drawer>
   </div>
 </template>
 <script>
@@ -109,7 +86,7 @@
             content:'连接服务失败!'
           })
         });
-        
+
       },
       cancel(){
         this.$emit('input',false)

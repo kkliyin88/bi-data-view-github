@@ -14,12 +14,16 @@ import echarts from 'echarts'
 import './components/template/index'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
-// import './style/iview.css';
+import './style/main.css';
+import './style/iviewStyle.css';
 import { i18n } from './i18n/index' //国际化
 import  'echarts/theme/macarons.js'
 import  'echarts/theme/dark.js'
 import  'echarts/theme/vintage.js'
 import  'echarts/theme/shine.js'
+
+import jsPlumb from 'jsplumb'  //引入jsplumb
+Vue.prototype.$jsPlumb = jsPlumb.jsPlumb  //引入jsplumb
 
 Vue.use(iView);
 Vue.use(Elementui);

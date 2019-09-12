@@ -1,65 +1,36 @@
 <template>
   <div >
-     <Modal @on-visible-change='cancel' :value='value' :width='600' :title='editMsg.title' :loading='loading'>
-       <Form :model="editData" :label-width="0">
-         <Row>
-             <Col span="11">
-               <FormItem label="">
-                  <Input v-model="editData.name" >
-                     <span slot="prepend">度量名称</span>
-                  </Input>
-              </FormItem>
-             </Col>
-             <Col span="11" push=1>
-               <FormItem label="">
-                  <Input v-model="editData.nameEn"  :disabled="editMsg.type=='edit'">
-                     <span slot="prepend">度量编码</span>
-                  </Input>
-              </FormItem>
-             </Col>
-
-         </Row>
-          <Row>
-            <Col span="11">
-              <FormItem label="">
-              <Select v-model="editData.calculationType" prefix="liyin" style="width:100%" filterable clearble>
-                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-              </Select>
-              </FormItem>
-            </Col>
-             <Col span="11" push=1>
-               <FormItem label="">
-
-                  <Input v-model="editData.versions" >
-                    <span slot="prepend">版本号</span>
-                  </Input>
-              </FormItem>
-             </Col>
-
-         </Row>
-         <Row>
-            <Col span="11" >
-               <FormItem label="">
-
-                  <Input v-model="editData.remark" >
-                     <span slot="prepend">备注</span>
-                  </Input>
-              </FormItem>
-            </Col>
-         </Row>
+      <Drawer :title='editMsg.title'  inner :value='value' @on-close='cancel' closable scrollable  draggable>
+       <Form :model="editData" :label-width="80" class='edit'>
+           <FormItem label="度量名称">
+              <Input v-model="editData.name" > </Input>
+          </FormItem>
+           <FormItem label="度量编码">
+              <Input v-model="editData.nameEn"  :disabled="editMsg.type=='edit'"></Input>
+          </FormItem>
+          <FormItem label="计算类型">
+          <Select v-model="editData.calculationType"  style="width:100%" filterable clearble>
+            <Option v-for="item in cityList" :value="item.value" :label='item.label' :key="item.value"></Option>
+          </Select>
+          </FormItem>
+           <FormItem label="版本号">
+              <Input v-model="editData.versions" >
+              </Input>
+          </FormItem>
+           <FormItem label="备注">
+              <Input v-model="editData.remark" >  </Input>
+          </FormItem>
       </Form>
-      <div slot='footer'>
+      <div class='ivu-drawer-footer'>
         <Button  @click='cancel'>取消</Button>
         <Button type="primary" @click='sumit' :loading='loading'>提交</Button>
       </div>
-    </Modal>
-
+    </Drawer>
   </div>
 
 </template>
 <script>
   import { post } from '@/axios/fetch';
-  // import Select from '@/piugin/iview/src/components/select/index.js'
   export default {
     props:['editMsg','editData','value'],
     data() {

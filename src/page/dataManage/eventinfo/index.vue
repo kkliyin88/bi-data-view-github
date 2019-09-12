@@ -1,14 +1,14 @@
 <template>
   <div class='event_wrap' ref='wrap'>
     <div class="search_box">
-      <Button size='small' @click="showEdit('add')" type="info">添加</Button>
-      <Button  size='small' icon="plus" @click="del" type="warning">删除</Button>
+      <Button size='small' @click="showEdit('add')" type='primary'>添加</Button>
+      <Button  size='small' icon="plus" @click="del" >删除</Button>
     </div>
     <div class='table_box'>
       <Table border ref="selection"  size='small' :columns="columns"  :loading='loading' @on-selection-change="selectionData" :data="tableData" :height='pageHeight -210'> </Table>
     </div>
     <div class="pagesize_box">
-       <Page :total='pageQuery.total'  size='small' @on-change='changePageNum' @on-page-size-change='changePageSize' :page-size-opts='[10,20,30]' show-elevator show-sizer show-total />
+       <Page :total='pageQuery.total' :current='pageQuery.query.pageNum' :page-size='pageQuery.query.pageSize' size='small' @on-change='changePageNum' @on-page-size-change='changePageSize' :page-size-opts='[20,30,40,50]' show-elevator show-sizer show-total />
     </div>
     <div class='edit' v-if='editFlag'>
       <Edit :editData='editData':cityList='cityList' @getPageData='getPageData'  v-model='editFlag' :editMsg='editMsg'> </Edit>
@@ -40,7 +40,7 @@
         pageQuery:{
           query:{
              pageNum:1, //第几页
-             pageSize:10, //每页条数
+             pageSize:20, //每页条数
           },
           total:0,
         },
@@ -239,10 +239,5 @@
         display: inline-block;
       }
     }
-    .pagesize_box{
-      position: absolute;
-      bottom: 10px;
-    }
-
   }
 </style>

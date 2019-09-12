@@ -1,22 +1,13 @@
 <template>
-  <header class="head">
+  <header class="head" style='margin-bottom: 10px;'>
     <!-- 折叠按钮 -->
-    <div class="collapse-btn" @click="getCollapse">
-      <Icon type="md-apps" />
+   <div class="collapse-btn" @click="getCollapse">
+       <img style='height: 28px;width:28px;margin-top:15px;marginRight:-10px;' src='../../../static/image/xitong2.png' />
     </div>
-    <div class="logo">{{$t('h.system')}}</div>
+    <div class="logo" style="verticalAlign: center;">
+        {{$t('h.system')}}
+    </div>
     <div class="top-nav">
-      <!--退出or设置-->
-      <Dropdown style="margin-left: 20px">
-        <span>
-           <Icon type="ios-settings-outline" :size='30' />
-        </span>
-        <DropdownMenu slot="list">
-            <DropdownItem>关于我</DropdownItem>
-            <DropdownItem>设置</DropdownItem>
-            <DropdownItem>退出</DropdownItem>
-        </DropdownMenu>
-     </Dropdown>
     </div>
   </header>
 </template>
@@ -40,13 +31,31 @@
       },
       methods:{
         ...mapActions(["getCollapse"]),//简写
-//       
+//
       }
     }
 </script>
 <style scoped lang='less'>
-  .head{
+ .head{
     background: rgba(45,55,90,1);
+  }
+ header{
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 60px;
+    line-height:60px;
+    font-size: 22px;
+    color: #fff;
+    background-color: #24292e;
+    -webkit-transition: all .3s ;
+    -moz-transition: all .3s ;
+    transition:all .3s ;
+  }
+  .logo{
+    color: #9AA2B5;
+    font-size: 20px;
+
   }
   .lan {
     display: inline-block;
