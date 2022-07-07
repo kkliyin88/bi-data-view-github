@@ -18,7 +18,7 @@
     "jsplumb": "^2.11.2",
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
     "url-parse": "^1.4.4",
